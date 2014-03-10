@@ -22,7 +22,10 @@ public class Database {
 //		System.out.println(databaseTest.getRooms());
 //		databaseTest.addRoom(1, 2);
 //		databaseTest.getPassword("Hallvard");
-		databaseTest.getDuration(1);
+//		databaseTest.getDuration(1);
+		System.out.println(databaseTest.getUsername());
+		System.out.println(databaseTest.getAppointments());
+		databaseTest.addMeeting(30, "10:15:00","10:30:00","2013-04-16","hei","fdas","hei");
 	}
 	
 	public Database(){
@@ -69,7 +72,6 @@ public class Database {
 		} catch (SQLException e) {
 			throw new RuntimeException();
 		}
-		System.out.println(pw);
 		return pw;
 	}
 	
@@ -115,34 +117,121 @@ public class Database {
 	}
 	
 	
-	public void getDate(int avtaleID){
-		
-	}
-	
-	public int getDuration(int avtaleID){
-		String en = "(select sluttid from Avtale where avtaleid = " + avtaleID + ")";
-		String to = "(select starttid from Avtale where avtaleid = " + avtaleID + ")";
-		String query = "select TIMEDIFF (" + en + "," + to + ");";
+	public Date getDate(int avtaleID){
+		String query = "select dato from Avtale where avtaleid = " + avtaleID + ";";
+		Date dato = null;
 		ResultSet rs = db.readQuery(query);
-		System.out.println(rs);
-		System.out.println(query);
-		int dur = 0;
 		try{
 			if(rs.next()){
-//				dur = rs.getInt(columnIndex);
+				dato = rs.getDate("dato");
 			}
 		}catch(SQLException e){
 			throw new RuntimeException(e);
 		}
-		return dur;
-}
-	
-	public void getStartEndTime(int avtaleID){
-		String query;
+		return dato;
 	}
 	
-	public void getMeetingRoom(int avtaleID){
-		String query;
+//	public Time getDuration(int avtaleID){
+//		String en = "(select sluttid from Avtale where avtaleid = " + avtaleID + ")";
+//		String to = "(select starttid from Avtale where avtaleid = " + avtaleID + ")";
+//		String query = "select TIMEDIFF (" + en + "," + to + ");";
+//		ResultSet rs = db.readQuery(query);
+//		System.out.println(rs);
+//		Time dur = null;
+//		try{
+//			if(rs.next()){
+//				System.out.println("HEI");
+//				dur = rs.getTime("TIMEDIFF ((select sluttid from Avtale where avtaleid = 1), (select starttid from Avtale where avtaleid = 1))");
+//			}
+//		}catch(SQLException e){
+//			throw new RuntimeException(e);
+//		}
+//		return dur;
+//	}
+	
+	public Time getStartTime(int avtaleID){
+		String query = "select starttid from Avtale where avtaleid = " + avtaleID + ";";
+		ResultSet rs = db.readQuery(query);
+		Time start = null;
+		try{
+			if(rs.next()){
+				start = rs.getTime("starttid");
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return start;
 	}
-
+	
+	public Time getEndTime(int avtaleID){
+		String query = "select sluttid from Avtale where avtaleid = " + avtaleID + ";";
+		ResultSet rs = db.readQuery(query);
+		Time end = null;
+		try{
+			if(rs.next()){
+				end = rs.getTime("sluttid");
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return end;
+	}
+	
+	public int getMeetingRoom(int avtaleID){
+		String query = "select moterom from Avtale where avtaleid = " + avtaleID + ";";
+		ResultSet rs = db.readQuery(query);
+		int room = 0;
+		try{
+			if(rs.next()){
+				room = rs.getInt("moterom");
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return room;
+	}
+	
+	public void addMeetingRoom(int id, int room){
+		String query = "update Avtale set moterom = " + room + " where avtaleid = " + id + ";";
+		db.updateQuery(query);
+	}
+	
+	public void removeMeetingRoom(int id){
+		String query = "update Avtale set moterom = null where avtaleid = " + id + ";";
+		db.updateQuery(query);
+	}
+	
+	public void addMeeting(int id, String start, String end, String date, String sted, String beskrivelse, String leder){
+		String query = "insert into Avtale values ("+id+",'"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', null,'"+leder+"');";
+		ArrayList<Integer> ap = getAppointments();
+		ArrayList<String> user = getUsername();
+		if(ap.contains(id)){
+			System.out.println("Denne avtaleid finnes allerede");
+		}else if(!user.contains(leder)){
+			System.out.println("Ikke gyldig brukernavn");
+		}else{
+			System.out.println("HEI");
+			db.updateQuery(query);
+		}
+	}
+	
+	public ArrayList<Integer> getAppointments(){
+		ArrayList<Integer> ap = new ArrayList<Integer>();
+		String query = "select avtaleid from Avtale;";
+		ResultSet rs = db.readQuery(query);
+		try{
+			while(rs.next()){
+				int a = rs.getInt("avtaleid");
+				ap.add(a);
+			}
+		} catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return ap;
+	}
+	
+	public void getAllApp(String user){
+		String query = "select avtaleid, starttid, sluttid, dato from Ansatt an natural join Deltaker d natural join Avtale av where brukernavn = '" + user + "'and an.brukernavn = d.ansatt and d.avtale = av.avtaleid;";
+				//select avtaleid, starttid, sluttid, dato from Ansatt an natural join Deltaker d natural join Avtale av where brukernavn = 'Hallvard' and an.brukernavn = d.ansatt and d.avtale = av.avtaleid;
+	}
 }
