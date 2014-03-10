@@ -12,7 +12,7 @@ public class Database {
 	 */
 	public static void main(String[] args) throws SQLException {
 		Database databaseTest = new Database();
-		System.out.println(databaseTest.getUsername());
+//		System.out.println(databaseTest.getUsername());
 //		databaseTest.addPerson("h", "pw");
 //		databaseTest.addPerson("h", "pw");
 //		databaseTest.getUsername();
@@ -21,6 +21,8 @@ public class Database {
 //		databaseTest.getRooms();
 //		System.out.println(databaseTest.getRooms());
 //		databaseTest.addRoom(1, 2);
+//		databaseTest.getPassword("Hallvard");
+		databaseTest.getDuration(1);
 	}
 	
 	public Database(){
@@ -113,6 +115,27 @@ public class Database {
 	}
 	
 	
+	public void getDate(int avtaleID){
+		
+	}
+	
+	public int getDuration(int avtaleID){
+		String en = "(select sluttid from Avtale where avtaleid = " + avtaleID + ")";
+		String to = "(select starttid from Avtale where avtaleid = " + avtaleID + ")";
+		String query = "select TIMEDIFF (" + en + "," + to + ");";
+		ResultSet rs = db.readQuery(query);
+		System.out.println(rs);
+		System.out.println(query);
+		int dur = 0;
+		try{
+			if(rs.next()){
+//				dur = rs.getInt(columnIndex);
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return dur;
+}
 	
 	public void getStartEndTime(int avtaleID){
 		String query;
