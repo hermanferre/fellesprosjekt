@@ -63,20 +63,20 @@ public class EditAvtale {
 		database.editPlace(ID, com);
 	}
 	public void editBeskrivelse(int ID){
-		System.out.println("Legg til ny stedsbeskrivelse: ");
+		System.out.println("Legg til ny beskrivelse: ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		database.editBeskrivelse(tall, com)
 	}
 	public void editMoterom(int ID){
-		System.out.println("Legg til ny stedsbeskrivelse: ");
+		System.out.println("Legg til nytt møterom: ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		int tall2;
 		try {
 			int tall2 = Integer.parseInt(com);
 		} catch (NumberFormatException e) {
-			System.out.println("Dette var ikke et tall. Føkk deg");
+			System.out.println("Dette var ikke et tall");
 		}
 		database.editMeetingroom(ID, tall2)
 	}
