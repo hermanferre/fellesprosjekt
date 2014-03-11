@@ -23,9 +23,10 @@ public class Database {
 //		databaseTest.addRoom(1, 2);
 //		databaseTest.getPassword("Hallvard");
 //		databaseTest.getDuration(1);
-		System.out.println(databaseTest.getUsername());
-		System.out.println(databaseTest.getAppointments());
-		databaseTest.addMeeting(30, "10:15:00","10:30:00","2013-04-16","hei","fdas","hei");
+//		System.out.println(databaseTest.getUsername());
+//		System.out.println(databaseTest.getAppointments());
+//		databaseTest.addMeeting(30, "10:15:00","10:30:00","2013-04-16","hei","fdas","hei");
+		System.out.println(databaseTest.getVarighet(1));
 	}
 	
 	public Database(){
@@ -117,7 +118,7 @@ public class Database {
 	}
 	
 	
-	public Date getDate(int avtaleID){
+	public String getDate(int avtaleID){
 		String query = "select dato from Avtale where avtaleid = " + avtaleID + ";";
 		Date dato = null;
 		ResultSet rs = db.readQuery(query);
@@ -128,28 +129,29 @@ public class Database {
 		}catch(SQLException e){
 			throw new RuntimeException(e);
 		}
-		return dato;
+		String date = dato.toString();
+		return date;
 	}
 	
-//	public Time getDuration(int avtaleID){
-//		String en = "(select sluttid from Avtale where avtaleid = " + avtaleID + ")";
-//		String to = "(select starttid from Avtale where avtaleid = " + avtaleID + ")";
-//		String query = "select TIMEDIFF (" + en + "," + to + ");";
-//		ResultSet rs = db.readQuery(query);
-//		System.out.println(rs);
-//		Time dur = null;
-//		try{
-//			if(rs.next()){
-//				System.out.println("HEI");
-//				dur = rs.getTime("TIMEDIFF ((select sluttid from Avtale where avtaleid = 1), (select starttid from Avtale where avtaleid = 1))");
-//			}
-//		}catch(SQLException e){
-//			throw new RuntimeException(e);
-//		}
-//		return dur;
-//	}
+	public String getVarighet(int AVTALEID) {
+		String sql1 = "select STARTTID from Avtale where AVTALEID = "+AVTALEID;
+		String sql2 = "select SLUTTID from Avtale where AVTALEID = "+AVTALEID;
+		String sql3 = "select TIMEDIFF (("+sql2+"), (" +sql1+"));";
+		ResultSet rs = db.readQuery(sql3);
+		String varighet = null;
+		try {
+			if (rs.next()){
+				varighet = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return varighet;
+	}
 	
-	public Time getStartTime(int avtaleID){
+
+	
+	public String getStartTime(int avtaleID){
 		String query = "select starttid from Avtale where avtaleid = " + avtaleID + ";";
 		ResultSet rs = db.readQuery(query);
 		Time start = null;
@@ -160,10 +162,11 @@ public class Database {
 		}catch(SQLException e){
 			throw new RuntimeException(e);
 		}
-		return start;
+		String time = start.toString();
+		return time;
 	}
 	
-	public Time getEndTime(int avtaleID){
+	public String getEndTime(int avtaleID){
 		String query = "select sluttid from Avtale where avtaleid = " + avtaleID + ";";
 		ResultSet rs = db.readQuery(query);
 		Time end = null;
@@ -174,7 +177,8 @@ public class Database {
 		}catch(SQLException e){
 			throw new RuntimeException(e);
 		}
-		return end;
+		String time = end.toString();
+		return time;
 	}
 	
 	public int getMeetingRoom(int avtaleID){
@@ -226,7 +230,7 @@ public class Database {
 		db.updateQuery(query);
 	}
 	
-	public void editSted(int id, String sted){
+	public void editPlace(int id, String sted){
 		String query = "update Avtale set sted = " + sted + " where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
@@ -238,7 +242,12 @@ public class Database {
 	
 	public void editMeetingRoom(int id, int room){
 		String query = "update Avtale set moterom = " + room + " where avtaleid = " + id + ";";
-		db.updateQuery(query);
+		ArrayList<Integer> rooms = new ArrayList<Integer>();
+		if(rooms.contains(room)){
+			db.updateQuery(query);
+		}else{
+			System.out.println("Ikke gyldig rom");
+		}
 	}
 	
 	public ArrayList<Integer> getAppointments(){
