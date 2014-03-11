@@ -12,21 +12,7 @@ public class Database {
 	 */
 	public static void main(String[] args) throws SQLException {
 		Database databaseTest = new Database();
-//		System.out.println(databaseTest.getUsername());
-//		databaseTest.addPerson("h", "pw");
-//		databaseTest.addPerson("h", "pw");
-//		databaseTest.getUsername();
-//		databaseTest.removePerson("h");
-//		databaseTest.getUsername();
-//		databaseTest.getRooms();
-//		System.out.println(databaseTest.getRooms());
-//		databaseTest.addRoom(1, 2);
-//		databaseTest.getPassword("Hallvard");
-//		databaseTest.getDuration(1);
-//		System.out.println(databaseTest.getUsername());
-//		System.out.println(databaseTest.getAppointments());
-//		databaseTest.addMeeting(30, "10:15:00","10:30:00","2013-04-16","hei","fdas","hei");
-		System.out.println(databaseTest.getVarighet(1));
+
 	}
 	
 	public Database(){
