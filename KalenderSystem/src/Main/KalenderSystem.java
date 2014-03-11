@@ -21,7 +21,6 @@ public class KalenderSystem {
 	public KalenderSystem() {
 		db = new Database();
 		ea = new EditAvtale();
-		System.out.println(db.getRoomCap(201));
 		scanner = new Scanner(System.in);
 		loggedin = false;
 		run = true;

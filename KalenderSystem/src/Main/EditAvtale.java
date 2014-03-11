@@ -13,7 +13,7 @@ public class EditAvtale {
 	}
 
 	public void editMeny(){
-		System.out.println("Angi avtaleid)");
+		System.out.println("Angi avtaleid");
 		Scanner sc = new Scanner(System.in);
 		String id = sc.nextLine();
 		int tall = 0;

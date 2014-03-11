@@ -2,6 +2,7 @@ package GUI;
 
 public class Text {
 
+	// KALENDERSYSTEM
 	public static String logginn = 		"Vennligst logg inn";
 	public static String brukernavn = 	"Brukernavn:";
 	public static String passord = 		"Passord:";
