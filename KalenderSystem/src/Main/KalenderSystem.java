@@ -2,7 +2,7 @@ package Main;
 
 import java.util.Scanner;
 
-import DB.Database;
+import DB.*;
 import GUI.*;
 
 public class KalenderSystem {
@@ -12,13 +12,13 @@ public class KalenderSystem {
 	 * @param args
 	 */
 
-	Database db;
+	DBAnsatt db;
 	Scanner scanner;
 	boolean loggedin;
 	boolean run;
 
 	public KalenderSystem() {
-		db = new Database();
+		db = new DBAnsatt();
 		scanner = new Scanner(System.in);
 		loggedin = false;
 		run = true;
@@ -79,22 +79,7 @@ public class KalenderSystem {
 		}
 	}
 
-	private void editMeetingRoom() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void addMeetingRoom() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void editEmployee() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void addEmployee() {
+	private void addAppointment() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -104,7 +89,22 @@ public class KalenderSystem {
 		
 	}
 
-	private void addAppointment() {
+	private void addEmployee() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void editEmployee() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void addMeetingRoom() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void editMeetingRoom() {
 		// TODO Auto-generated method stub
 		
 	}
