@@ -12,8 +12,7 @@ public class Database {
 	 */
 	public static void main(String[] args) throws SQLException {
 		Database databaseTest = new Database();
-		System.out.println(databaseTest.getRoomCap(201));
-
+		System.out.println("HEI");
 	}
 	
 	public Database(){
@@ -118,27 +117,27 @@ public class Database {
 	}
 	
 	public void editStart(int id, String start){
-	String query = "update Avtale set starttid = " + start + " where avtaleid = " + id + ";";
+	String query = "update Avtale set starttid = '" + start + "' where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
 	
 	public void editEnd(int id, String end){
-		String query = "update Avtale set sluttid = " + end + " where avtaleid = " + id + ";";
+		String query = "update Avtale set sluttid = '" + end + "' where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
 	
 	public void editDate(int id, String date){
-		String query = "update Avtale set dato = " + date + " where avtaleid = " + id + ";";
+		String query = "update Avtale set dato = '" + date + "' where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
 	
 	public void editPlace(int id, String sted){
-		String query = "update Avtale set sted = " + sted + " where avtaleid = " + id + ";";
+		String query = "update Avtale set sted = '" + sted + "' where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
 	
 	public void editBeskrivelse(int id, String be){
-		String query = "update Avtale set beskrivelse = " + be + " where avtaleid = " + id + ";";
+		String query = "update Avtale set beskrivelse = '" + be + "' where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
 	

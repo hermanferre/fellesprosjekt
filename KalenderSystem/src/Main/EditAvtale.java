@@ -23,26 +23,26 @@ public class EditAvtale {
 			System.out.println("Dette var ikke et tall. Føkk deg");
 		}
 		
-		System.out.println("0: endre starttid");
-		System.out.println("1: endre sluttid");
-		System.out.println("2: endre dato");
-		System.out.println("3: endre sted");
-		System.out.println("4: endre beskrivelse");
-		System.out.println("5: endre moterom");
+		System.out.println("1: endre starttid");
+		System.out.println("2: endre sluttid");
+		System.out.println("3: endre dato");
+		System.out.println("4: endre sted");
+		System.out.println("5: endre beskrivelse");
+		System.out.println("6: endre moterom");
 		sc = new Scanner(System.in);
-		String com = sc.nextLine();
+		int com = sc.nextInt();
 		
-		if(com == "0")
+		if(com == 1)
 			editStart(tall);
-			else if(com == "1")
+			else if(com == 2)
 				editSlutt(tall);
-			else if(com == "2")
+			else if(com == 3)
 				editDato(tall);
-			else if(com =="3")
+			else if(com ==4)
 				editSted(tall);
-			else if(com == "4")
+			else if(com == 5)
 				editBeskrivelse(tall);
-			else if(com =="5")
+			else if(com == 6)
 				editMoterom(tall);
 			else
 				System.out.println("ikke gyldig tall");	
