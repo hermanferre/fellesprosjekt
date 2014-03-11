@@ -191,9 +191,19 @@ public class Database {
 		return room;
 	}
 	
-	public void addMeetingRoom(int id, int room){
-		String query = "update Avtale set moterom = " + room + " where avtaleid = " + id + ";";
-		db.updateQuery(query);
+	
+	public void addMeeting(int id, String start, String end, String date, String sted, String beskrivelse, String leader){
+		String query = "insert into Avtale values ("+id+",'"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', null,'"+leader+"');";
+		ArrayList<Integer> ap = getAppointments();
+		ArrayList<String> user = getUsername();
+		if(ap.contains(id)){
+			System.out.println("Denne avtaleid finnes allerede");
+		}else if(!user.contains(leader)){
+			System.out.println("Ikke gyldig brukernavn");
+		}else{
+			System.out.println("HEI");
+			db.updateQuery(query);
+		}
 	}
 	
 	public void removeMeetingRoom(int id){
@@ -201,18 +211,34 @@ public class Database {
 		db.updateQuery(query);
 	}
 	
-	public void addMeeting(int id, String start, String end, String date, String sted, String beskrivelse, String leder){
-		String query = "insert into Avtale values ("+id+",'"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', null,'"+leder+"');";
-		ArrayList<Integer> ap = getAppointments();
-		ArrayList<String> user = getUsername();
-		if(ap.contains(id)){
-			System.out.println("Denne avtaleid finnes allerede");
-		}else if(!user.contains(leder)){
-			System.out.println("Ikke gyldig brukernavn");
-		}else{
-			System.out.println("HEI");
-			db.updateQuery(query);
-		}
+	public void editStart(int id, String start){
+	String query = "update Avtale set starttid = " + start + " where avtaleid = " + id + ";";
+		db.updateQuery(query);
+	}
+	
+	public void editEnd(int id, String end){
+		String query = "update Avtale set sluttid = " + end + " where avtaleid = " + id + ";";
+		db.updateQuery(query);
+	}
+	
+	public void editDate(int id, String date){
+		String query = "update Avtale set dato = " + date + " where avtaleid = " + id + ";";
+		db.updateQuery(query);
+	}
+	
+	public void editSted(int id, String sted){
+		String query = "update Avtale set sted = " + sted + " where avtaleid = " + id + ";";
+		db.updateQuery(query);
+	}
+	
+	public void editBeskrivelse(int id, String be){
+		String query = "update Avtale set beskrivelse = " + be + " where avtaleid = " + id + ";";
+		db.updateQuery(query);
+	}
+	
+	public void editMeetingRoom(int id, int room){
+		String query = "update Avtale set moterom = " + room + " where avtaleid = " + id + ";";
+		db.updateQuery(query);
 	}
 	
 	public ArrayList<Integer> getAppointments(){
