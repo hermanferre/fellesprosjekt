@@ -6,8 +6,8 @@ public class Text {
 	public static String brukernavn = 	"Brukernavn:";
 	public static String passord = 		"Passord:";
 	public static String logginn_ok = 	"Innlogging OK!";
-	public static String logginn_feil = "Innlogging feilet, pr¿v igjen!";
-	public static String velkommen = 	"Velkommen til kalendersystemet!\nHva ¿nsker du Œ gj¿re idag (skriv tall)?";
+	public static String logginn_feil = "Innlogging feilet, prov igjen!";
+	public static String velkommen = 	"Velkommen til kalendersystemet!\nHva onsker du a gjore idag (skriv tall)?";
 	public static String[] valg = 		{"Avslutt",
 										"Legg til avtale",
 										"Endre avtale",
@@ -16,5 +16,5 @@ public class Text {
 										"Legg til avtale",
 										"Endre avtale"};
 	public static String avsluttet =	"Du har avsluttet programmet. Ha en fortsatt fin dag.";
-	public static String provigjen =	"Pr¿v igjen";
+	public static String provigjen =	"Prov igjen";
 }

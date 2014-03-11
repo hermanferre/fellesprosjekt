@@ -12,11 +12,44 @@ public class Database {
 	 */
 	public static void main(String[] args) throws SQLException {
 		Database databaseTest = new Database();
-		System.out.println("HEI");
+//		databaseTest.addMeeting("14:00:00","15:00:00","2014-01-01","hei","fhdsja","Hallvard");
+//		databaseTest.addParticipants("Hallvard", 4);
+		databaseTest.getAppointments("Hallvard");
 	}
 	
 	public Database(){
 		db = new DBConnection();
+	}
+	
+	public void getAppointments(String user){
+		String query = "select avtaleid, starttid, sluttid, dato, sted, beskrivelse, moterom from Deltaker natural join Ansatt natural join Avtale where '" + user + "' = ansatt and avtale = avtaleid and brukernavn = '" + user + "'";
+		ResultSet rs = db.readQuery(query);
+		try{
+			while(rs.next()){
+				String hei = rs.getString("starttid");
+				String hallo = rs.getString("sluttid");
+				System.out.println(hei);
+				System.out.println(hallo);
+			}
+			
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public void addParticipants(String user, int id){
+		String query1 = "insert into Deltaker (ansatt, avtale) values ('" + user + "', " + id + ");";
+		String query2 = "select ansatt, avtale from Deltaker where ansatt = '" + "' and avtale = " + id + ";";
+		ResultSet rs = db.readQuery(query2);
+		try {
+			if(rs.getString("ansatt") == "null"){
+				db.updateQuery(query1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
+//		db.updateQuery(query);
 	}
 
 	public String getDate(int avtaleID){
@@ -97,18 +130,20 @@ public class Database {
 	}
 	
 	
-	public void addMeeting(int id, String start, String end, String date, String sted, String beskrivelse, String leader){
-		String query = "insert into Avtale values ("+id+",'"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', null,'"+leader+"');";
-		ArrayList<Integer> ap = getAppointments();
-		ArrayList<String> user = getUsername();
-		if(ap.contains(id)){
-			System.out.println("Denne avtaleid finnes allerede");
-		}else if(!user.contains(leader)){
-			System.out.println("Ikke gyldig brukernavn");
-		}else{
-			System.out.println("HEI");
-			db.updateQuery(query);
+	public void addMeeting(String start, String end, String date, String sted, String beskrivelse, String leader){
+		String antall = "select count(*) from Avtale;";
+		ResultSet rs = db.readQuery(antall);
+		int id = 0;
+		try{
+			if(rs.next()){
+				id = rs.getInt(1);
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
 		}
+		id++;
+		String query = "insert into Avtale values ("+id+",'"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', null,'"+leader+"');";
+		db.updateQuery(query);
 	}
 	
 	public void removeMeetingRoom(int id){
@@ -144,6 +179,7 @@ public class Database {
 	public void editMeetingRoom(int id, int room){
 		String query = "update Avtale set moterom = " + room + " where avtaleid = " + id + ";";
 		ArrayList<Integer> rooms = new ArrayList<Integer>();
+		rooms = getRooms();
 		if(rooms.contains(room)){
 			db.updateQuery(query);
 		}else{
@@ -166,9 +202,11 @@ public class Database {
 		return ap;
 	}
 	
-	public void getAllApp(String user){
-		String query = "select avtaleid, starttid, sluttid, dato from Ansatt an natural join Deltaker d natural join Avtale av where brukernavn = '" + user + "'and an.brukernavn = d.ansatt and d.avtale = av.avtaleid;";
-				//select avtaleid, starttid, sluttid, dato from Ansatt an natural join Deltaker d natural join Avtale av where brukernavn = 'Hallvard' and an.brukernavn = d.ansatt and d.avtale = av.avtaleid;
+	public void removeMeeting(int id){
+		String query1 = "delete from Deltaker where avtale = " + id + ";";
+		String query2 = "delete from Avtale where avtaleid = " + id + ";";
+		db.updateQuery(query1);
+		db.updateQuery(query2);
 	}
 	
 	public ArrayList<String> getUsername(){
@@ -196,8 +234,10 @@ public class Database {
 	}
 	
 	public void removePerson(String user){
-		String query = "delete from Ansatt where brukernavn = '" + user + "';";
-		db.updateQuery(query);
+		String query1 = "delete from Deltaker where brukernavn = '" + user + "';";
+		String query2 = "delete from Ansatt where brukernavn = '" + user + "';";
+		db.updateQuery(query1);
+		db.updateQuery(query2);
 	}
 	
 	public String getPassword(String username){

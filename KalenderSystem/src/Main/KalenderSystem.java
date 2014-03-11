@@ -17,11 +17,12 @@ public class KalenderSystem {
 	boolean loggedin;
 	boolean run;
 	EditAvtale ea;
+	Avtale a;
 
 	public KalenderSystem() {
 		db = new Database();
 		ea = new EditAvtale();
-		System.out.println(db.getRoomCap(201));
+		a = new Avtale();
 		scanner = new Scanner(System.in);
 		loggedin = false;
 		run = true;
@@ -59,7 +60,7 @@ public class KalenderSystem {
 				run = false;
 				break;
 			case 1:
-				addAppointment();
+				a.addMeet();
 				break;
 			case 2:
 				ea.editMeny();
