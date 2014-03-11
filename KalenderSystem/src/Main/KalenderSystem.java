@@ -114,8 +114,8 @@ public class KalenderSystem {
 
 	public void printMenu() {
 		System.out.println(Text.velkommen);
-		for (int i = 0; i < Text.valg.length; i++) {
-			System.out.println(i+".\t"+Text.valg[i]);
+		for (int i = 0; i < Text.hovedvalg.length; i++) {
+			System.out.println(i+".\t"+Text.hovedvalg[i]);
 		}
 	}
 

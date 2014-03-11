@@ -8,7 +8,7 @@ public class Text {
 	public static String logginn_ok = 	"Innlogging OK!";
 	public static String logginn_feil = "Innlogging feilet, pr¿v igjen!";
 	public static String velkommen = 	"Velkommen til kalendersystemet!\nHva ¿nsker du Œ gj¿re idag (skriv tall)?";
-	public static String[] valg = 		{"Avslutt",
+	public static String[] hovedvalg = 	{"Avslutt",
 										"Legg til avtale",
 										"Endre avtale",
 										"Legg til ansatt",
