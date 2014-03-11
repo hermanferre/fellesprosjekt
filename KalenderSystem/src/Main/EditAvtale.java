@@ -10,7 +10,8 @@ public class EditAvtale {
 	DBMoterom dbm = new DBMoterom();
 	DBAvtale dbavtale = new DBAvtale();
 	DBAnsatt dbansatt = new DBAnsatt();
-	public static void main(String [] args){
+	
+	public static void main(String[] args){
 		EditAvtale ea = new EditAvtale();
 		ea.editMeny();
 	}
@@ -19,7 +20,7 @@ public class EditAvtale {
 		System.out.println("Angi avtaleid)");
 		Scanner sc = new Scanner(System.in);
 		String id = sc.nextLine();
-		int tall;
+		int tall = 0;
 		try {
 			tall = Integer.parseInt(id);
 		} catch (NumberFormatException e) {
@@ -35,7 +36,7 @@ public class EditAvtale {
 		sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		
-		if(com == "0"){
+		if(com == "0")
 			editStart(tall);
 			else if(com == "1")
 				editSlutt(tall);

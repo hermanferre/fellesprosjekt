@@ -1,25 +1,25 @@
 package DB;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Time;
+import java.sql.*;
 import java.util.ArrayList;
 
-public class DBAvtale {
-	DBConnection db = new DBConnection();
-	DBMoterom dbm = new DBMoterom();
-	DBAnsatt dbansatt = new DBAnsatt();
-	DBAvtale dbavtale = new DBAvtale();
-	public static void main(String[] args) throws SQLException{
+public class Database {
 	
-	}
-	public DBAvtale(){
-
-		System.out.println(getDate(1));
+	DBConnection db;
+	/**
+	 * @param args
+	 * @throws SQLException 
+	 */
+	public static void main(String[] args) throws SQLException {
+		Database databaseTest = new Database();
+		System.out.println(databaseTest.getRoomCap(201));
 
 	}
 	
+	public Database(){
+		db = new DBConnection();
+	}
+
 	public String getDate(int avtaleID){
 		String query = "select dato from Avtale where avtaleid = " + avtaleID + ";";
 		Date dato = null;
@@ -101,7 +101,7 @@ public class DBAvtale {
 	public void addMeeting(int id, String start, String end, String date, String sted, String beskrivelse, String leader){
 		String query = "insert into Avtale values ("+id+",'"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', null,'"+leader+"');";
 		ArrayList<Integer> ap = getAppointments();
-		ArrayList<String> user = dbansatt.getUsername();
+		ArrayList<String> user = getUsername();
 		if(ap.contains(id)){
 			System.out.println("Denne avtaleid finnes allerede");
 		}else if(!user.contains(leader)){
@@ -170,5 +170,87 @@ public class DBAvtale {
 	public void getAllApp(String user){
 		String query = "select avtaleid, starttid, sluttid, dato from Ansatt an natural join Deltaker d natural join Avtale av where brukernavn = '" + user + "'and an.brukernavn = d.ansatt and d.avtale = av.avtaleid;";
 				//select avtaleid, starttid, sluttid, dato from Ansatt an natural join Deltaker d natural join Avtale av where brukernavn = 'Hallvard' and an.brukernavn = d.ansatt and d.avtale = av.avtaleid;
+	}
+	
+	public ArrayList<String> getUsername(){
+		ArrayList<String> brukernavn = new ArrayList<String>();
+		String query = "select brukernavn from Ansatt;";
+		ResultSet rs = db.readQuery(query);
+		try{
+			while(rs.next()){
+				brukernavn.add(rs.getString("brukernavn"));
+			}
+		} catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return brukernavn;
+	}
+	
+	public void addPerson(String user, String pw) throws SQLException{
+		ArrayList<String>brukernavn = getUsername();
+		if(brukernavn.contains(user)){
+			System.out.println("Brukeren finnes allerede, velg et annet brukernavn!");
+		} else{
+			String query = "insert into Ansatt values ('" + user + "', '" + pw + "');";
+			db.updateQuery(query);
+		}
+	}
+	
+	public void removePerson(String user){
+		String query = "delete from Ansatt where brukernavn = '" + user + "';";
+		db.updateQuery(query);
+	}
+	
+	public String getPassword(String username){
+		String query = "select passord from Ansatt where brukernavn = '" + username + "';";
+		ResultSet rs = db.readQuery(query);
+		String pw = null;
+		try {
+			if(rs.next()){
+				pw = rs.getString("passord");
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException();
+		}
+		return pw;
+	}
+	
+	public int getRoomCap(int roomNr){
+		String query = "select * from Moterom where romnr = '" + roomNr + "';";
+		ResultSet rs = db.readQuery(query);
+		int cap = 0;
+		try{
+			if(rs.next()){
+				cap = rs.getInt("kapasitet");
+			}
+		} catch(SQLException e){
+			throw new RuntimeException();
+		}
+		return cap;
+	}
+	
+	public ArrayList<Integer> getRooms(){
+		ArrayList<Integer> rooms = new ArrayList<Integer>();
+		String query = "select romnr from Moterom;";
+		ResultSet rs = db.readQuery(query);
+		try{
+			while(rs.next()){
+				int room = rs.getInt("romnr");
+				rooms.add(room);
+			}
+		} catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return rooms;
+	}
+	
+	public void addRoom(int roomNr, int cap) throws SQLException{
+		ArrayList<Integer> rooms = getRooms();
+		if(rooms.contains(roomNr)){
+			System.out.println("Rommet finnes allerede, velg et annet brukernavn!");
+		} else{
+			String query = "insert into Moterom values (" + roomNr + ", " + cap + ");";
+			db.updateQuery(query);
+		}
 	}
 }
