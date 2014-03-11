@@ -8,11 +8,15 @@ import java.util.ArrayList;
 
 public class DBAvtale {
 	DBConnection db;
+	DBMoterom dbm;
+	DBAnsatt dbansatt;
 	public static void main(String[] args) throws SQLException{
-		DBMoterom dbm = new DBMoterom();
+		DBAvtale dbm = new DBAvtale();
 	}
 	public DBAvtale(){
 		db = new DBConnection();
+		dbm = new DBMoterom();
+		dbansatt = new DBAnsatt();
 	}
 	
 	public String getDate(int avtaleID){
@@ -96,7 +100,7 @@ public class DBAvtale {
 	public void addMeeting(int id, String start, String end, String date, String sted, String beskrivelse, String leader){
 		String query = "insert into Avtale values ("+id+",'"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', null,'"+leader+"');";
 		ArrayList<Integer> ap = getAppointments();
-		ArrayList<String> user = getUsername();
+		ArrayList<String> user = dbansatt.getUsername();
 		if(ap.contains(id)){
 			System.out.println("Denne avtaleid finnes allerede");
 		}else if(!user.contains(leader)){

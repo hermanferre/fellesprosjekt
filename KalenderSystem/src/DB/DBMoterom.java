@@ -6,11 +6,15 @@ import java.util.ArrayList;
 
 public class DBMoterom {
 	DBConnection db;
+	DBAnsatt dbansatt;
+	DBAvtale dbavtale;
 	public static void main(String[] args) throws SQLException{
 		DBMoterom dbm = new DBMoterom();
 	}
 	public DBMoterom(){
 		db = new DBConnection();
+		dbansatt = new DBAnsatt();
+		dbavtale = new DBAvtale();
 	}
 	
 	public int getRoomCap(int roomNr){

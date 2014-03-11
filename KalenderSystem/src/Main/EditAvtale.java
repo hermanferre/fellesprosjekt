@@ -3,6 +3,11 @@ package Main;
 import java.util.Scanner;
 
 public class EditAvtale {
+	
+	public static void main(String [] args){
+		editMeny();
+	}
+
 	public void editMeny(){
 		System.out.println("Angi avtaleid)");
 		Scanner sc = new Scanner(System.in);
@@ -20,7 +25,7 @@ public class EditAvtale {
 		System.out.println("3: endre sted");
 		System.out.println("4: endre beskrivelse");
 		System.out.println("5: endre moterom");
-		Scanner sc = new Scanner(System.in);
+		sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		
 		if(com == "0"){

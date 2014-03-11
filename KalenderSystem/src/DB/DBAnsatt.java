@@ -6,11 +6,15 @@ import java.util.ArrayList;
 
 public class DBAnsatt {
 	DBConnection db;
+	DBAvtale dbavtale;
+	DBMoterom dbm;
 	public static void main(String[] args) throws SQLException{
-		DBMoterom dbm = new DBMoterom();
+		DBAnsatt dbm = new DBAnsatt();
 	}
 	public DBAnsatt(){
 		db = new DBConnection();
+		dbavtale = new DBAvtale();
+		dbm = new DBMoterom();
 	}
 	
 	public ArrayList<String> getUsername(){
