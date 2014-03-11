@@ -12,13 +12,13 @@ public class KalenderSystem {
 	 * @param args
 	 */
 
-	DBAnsatt db;
+	Database db;
 	Scanner scanner;
 	boolean loggedin;
 	boolean run;
 
 	public KalenderSystem() {
-		db = new DBAnsatt();
+		db = new Database();
 		scanner = new Scanner(System.in);
 		loggedin = false;
 		run = true;
