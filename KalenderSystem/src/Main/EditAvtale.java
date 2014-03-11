@@ -2,10 +2,17 @@ package Main;
 
 import java.util.Scanner;
 
+import DB.DBMoterom;
+import DB.DBAnsatt;
+import DB.DBAvtale;
+
 public class EditAvtale {
-	
+	DBMoterom dbm = new DBMoterom();
+	DBAvtale dbavtale = new DBAvtale();
+	DBAnsatt dbansatt = new DBAnsatt();
 	public static void main(String [] args){
-		editMeny();
+		EditAvtale ea = new EditAvtale();
+		ea.editMeny();
 	}
 
 	public void editMeny(){
@@ -47,42 +54,42 @@ public class EditAvtale {
 		System.out.println("Legg til ny starttid(HH:MM:SS): ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
-		database.editStart(ID, com);
+		dbavtale.editStart(ID, com);
 	}
 	public void editSlutt(int ID){
 		System.out.println("Legg til ny sluttid(HH:MM:SS): ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
-		database.editEnd(ID, com);
+		dbavtale.editEnd(ID, com);
 	}
 	public void editDato(int ID){
 		System.out.println("Legg til ny dato(YYYY-MM-DD): ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
-		database.editDate(ID, com);
+		dbavtale.editDate(ID, com);
 	}
 	public void editSted(int ID){
 		System.out.println("Legg til ny stedsbeskrivelse: ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
-		database.editPlace(ID, com);
+		dbavtale.editPlace(ID, com);
 	}
 	public void editBeskrivelse(int ID){
 		System.out.println("Legg til ny beskrivelse: ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
-		database.editBeskrivelse(tall, com)
+		dbavtale.editBeskrivelse(ID, com);
 	}
 	public void editMoterom(int ID){
 		System.out.println("Legg til nytt møterom: ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
-		int tall2;
+		int tall2 = 0;
 		try {
-			int tall2 = Integer.parseInt(com);
+			tall2 = Integer.parseInt(com);
 		} catch (NumberFormatException e) {
 			System.out.println("Dette var ikke et tall");
 		}
-		database.editMeetingroom(ID, tall2)
+		dbavtale.editMeetingRoom(ID, tall2);
 	}
 }
