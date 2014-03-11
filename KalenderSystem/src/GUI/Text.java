@@ -16,4 +16,5 @@ public class Text {
 										"Legg til avtale",
 										"Endre avtale"};
 	public static String avsluttet =	"Du har avsluttet programmet. Ha en fortsatt fin dag.";
+	public static String provigjen =	"Pr¿v igjen";
 }

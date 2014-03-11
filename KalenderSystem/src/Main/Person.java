@@ -14,6 +14,7 @@ public class Person {
 	
 	public static void main(String args[]) throws ClassNotFoundException, SQLException {
 		System.out.println(getName("hermannf"));
+		System.out.println(getName("edvards"));
 	}
 	
 	public void setName(String name) {
@@ -22,10 +23,11 @@ public class Person {
 	
 	public static String getName(String u) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection conn = DriverManager.getConnection("mysql.stud.ntnu.no/", "hallvarh", "gruppe42");
+		Connection conn = DriverManager.getConnection("jdbc:mysql://mysql.stud.ntnu.no:3306/hallvarh_fp", "hallvarh", "gruppe42");
 		Statement stmt = conn.createStatement();
-		String query = "SELECT navn FROM Ansatt WHERE brukernavn="+u+");";
+		String query = "SELECT passord FROM Ansatt WHERE brukernavn='"+u+"';";
+		//System.out.println(query);
 		ResultSet rs = stmt.executeQuery(query);
-		return rs.getString("passord");
+		return rs.next() ? rs.getString("passord") : "Feil";
 	}
 }
