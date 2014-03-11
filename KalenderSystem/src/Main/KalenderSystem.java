@@ -16,9 +16,12 @@ public class KalenderSystem {
 	Scanner scanner;
 	boolean loggedin;
 	boolean run;
+	EditAvtale ea;
 
 	public KalenderSystem() {
 		db = new Database();
+		ea = new EditAvtale();
+		System.out.println(db.getRoomCap(201));
 		scanner = new Scanner(System.in);
 		loggedin = false;
 		run = true;
@@ -59,7 +62,7 @@ public class KalenderSystem {
 				addAppointment();
 				break;
 			case 2:
-				editAppointment();
+				ea.editMeny();
 				break;
 			case 3:
 				addEmployee();
