@@ -138,7 +138,7 @@ public class DBAvtale {
 	}
 	
 	public void editBeskrivelse(int id, String be){
-		String query = "update Avtale set beskrivelse = " + be + " where avtaleid = " + id + ";";
+		String query = "update Avtale set beskrivelse = '" + be + " where avtaleid = "' + id + ";";
 		db.updateQuery(query);
 	}
 	

@@ -10,12 +10,21 @@ public class Text {
 	public static String logginn_feil = "Innlogging feilet, pr¿v igjen!";
 	public static String velkommen = 	"Velkommen til kalendersystemet!\nHva ¿nsker du Œ gj¿re idag (skriv tall)?";
 	public static String[] hovedvalg = 	{"Avslutt",
-										"Legg til avtale",
-										"Endre avtale",
-										"Legg til ansatt",
-										"Endre ansatt",
-										"Legg til avtale",
-										"Endre avtale"};
+										"Min kalender",
+										"Avtaler",
+										"Ansatte",
+										"M¿terom"};
 	public static String avsluttet =	"Du har avsluttet programmet. Ha en fortsatt fin dag.";
 	public static String provigjen =	"Pr¿v igjen";
+	
+	//UNDERVALG
+	public static String[] avtalevalg =	{"Tilbake",
+										"Legg til avtale",
+										"Endre avtale"};
+	public static String[] ansattvalg = {"Tilbake",
+										"Legg til ansatt",
+										"Endre ansatt"};
+	public static String[] romvalg =	{"Tilbake",
+										"Legg til m¿terom",
+										"Endre m¿terom"};
 }

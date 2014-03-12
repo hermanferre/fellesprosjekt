@@ -50,30 +50,25 @@ public class KalenderSystem {
 		}
 
 		while (run) {
-			printMenu();
 
-			switch (scanner.nextInt()) {
+			System.out.println(Text.velkommen);
+
+			switch (printMenu(Text.hovedvalg)) {
 			case 0:
 				System.out.println(Text.avsluttet);
 				run = false;
 				break;
 			case 1:
-				addAppointment();
+				myCalendar();
 				break;
 			case 2:
-				ea.editMeny();
+				appointmentMenu();
 				break;
 			case 3:
-				addEmployee();
+				employeeMenu();
 				break;
 			case 4:
-				editEmployee();
-				break;
-			case 5:
-				addMeetingRoom();
-				break;
-			case 6:
-				editMeetingRoom();
+				meetingRoomMenu();
 				break;
 			default:
 				System.out.println(Text.provigjen);
@@ -81,41 +76,41 @@ public class KalenderSystem {
 		}
 	}
 
-	private void addAppointment() {
-		// TODO Auto-generated method stub
+	private void myCalendar() {
+		System.out.println("Vise kalender");
 		
 	}
 
-	private void editAppointment() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void addEmployee() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void editEmployee() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void addMeetingRoom() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void editMeetingRoom() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void printMenu() {
-		System.out.println(Text.velkommen);
-		for (int i = 0; i < Text.hovedvalg.length; i++) {
-			System.out.println(i+".\t"+Text.hovedvalg[i]);
+	private void appointmentMenu() {
+		switch(printMenu(Text.avtalevalg)) {
+		case 0: break;
+		case 1: break;
+		case 2: ea.editMeny(); break;
 		}
+		
+	}
+
+	private void employeeMenu() {
+		switch(printMenu(Text.ansattvalg)) {
+		case 0: break;
+		
+		}
+		
+	}
+
+	private void meetingRoomMenu() {
+		switch(printMenu(Text.romvalg)) {
+		case 0: break;
+		
+		}
+		
+	}
+
+	public int printMenu(String[] valg) {
+		for (int i = 0; i < valg.length; i++) {
+			System.out.println(i+".\t"+valg[i]);
+		}
+		return scanner.nextInt();
 	}
 
 }
