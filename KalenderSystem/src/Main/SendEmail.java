@@ -21,18 +21,6 @@ public class SendEmail {
 	public static void main(String[] args){
 		SendEmail se = new SendEmail();
 		se.getEmails(2);
-		
-		try {
-			for(int i=0;i<10;i++){
-			Send("pu.gruppe42", "gruppe42fp", "rubschmi@gmail.com", "Fuck yeeah", "Dette er en personlig beskjed fra din elskede");
-			}
-		}catch (AddressException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
 	}
 	
 	public ArrayList<String> getEmails(int id){
@@ -41,12 +29,12 @@ public class SendEmail {
 		return emails;
 	}
 	
-	public void sendEmail(int id){
+	public void sendEmail(int id, String message){
 		ArrayList<String> emails = getEmails(id);
 		try{
 			for(int i = 0; i < emails.size(); i++){
 			//for (emails : email)
-				Send("pu.gruppe42", "gruppe42fp", emails.get(i), "Emne", "text");
+				Send("pu.gruppe42", "gruppe42fp", emails.get(i), "Emne", message);
 			}
 		}catch(AddressException e){
 			e.printStackTrace();
@@ -55,7 +43,7 @@ public class SendEmail {
 		}
 	}
 
-	private SendEmail() {
+	SendEmail() {
 	}
 	public static void Send(final String username, final String password, String recipientEmail, String title, String message) throws AddressException, MessagingException {
 		SendEmail.Send(username, password, recipientEmail, "", title, message);
@@ -86,11 +74,4 @@ public class SendEmail {
 		t.sendMessage(msg, msg.getAllRecipients());      
 		t.close();
 	}
-
-
-
-
-
-
-
 }

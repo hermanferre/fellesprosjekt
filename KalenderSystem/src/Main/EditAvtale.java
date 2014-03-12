@@ -8,6 +8,7 @@ import DB.*;
 
 public class EditAvtale {
 	Database db = new Database();
+	SendEmail se = new SendEmail();
 	
 	public static void main(String[] args){
 		EditAvtale ea = new EditAvtale();
@@ -110,30 +111,35 @@ public class EditAvtale {
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		db.editStart(ID, com);
+		se.sendEmail(ID, "Ny starttid for mote " + ID + " er " + com);
 	}
 	public void editSlutt(int ID){
 		System.out.println("Legg til ny sluttid(HH:MM:SS): ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		db.editEnd(ID, com);
+		se.sendEmail(ID, "Ny sluttid for mote " + ID + " er " + com);
 	}
 	public void editDato(int ID){
 		System.out.println("Legg til ny dato(YYYY-MM-DD): ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		db.editDate(ID, com);
+		se.sendEmail(ID, "Ny dato for mote " + ID + " er " + com);
 	}
 	public void editSted(int ID){
 		System.out.println("Legg til ny stedsbeskrivelse: ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		db.editPlace(ID, com);
+		se.sendEmail(ID, "Ny plass for mote " + ID + " er " + com);
 	}
 	public void editBeskrivelse(int ID){
 		System.out.println("Legg til ny beskrivelse: ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		db.editBeskrivelse(ID, com);
+		se.sendEmail(ID, "Ny beskrivelse for mote " + ID + " er " + com);
 	}
 	public void editMoterom(int ID){
 		System.out.println("Legg til nytt møterom: ");
@@ -146,5 +152,6 @@ public class EditAvtale {
 			System.out.println("Dette var ikke et tall");
 		}
 		db.editMeetingRoom(ID, tall2);
+		se.sendEmail(ID, "Nytt moterom for mote " + ID + " er " + tall2);
 	}
 }
