@@ -12,7 +12,7 @@ public class EditAvtale {
 	
 	public static void main(String[] args){
 		EditAvtale ea = new EditAvtale();
-		ea.editMeny();
+//		ea.editMeny();
 	}
 
 	public void editMeny(){
@@ -142,7 +142,10 @@ public class EditAvtale {
 		se.sendEmail(ID, "Ny beskrivelse for mote " + ID + " er " + com);
 	}
 	public void editMoterom(int ID){
-		System.out.println("Legg til nytt møterom: ");
+		System.out.println("Legg til nytt moterom: ");
+		ArrayList<Integer> avRooms = db.getAvRoom(ID);
+		System.out.println("Ledige room er:");
+		System.out.println(avRooms);
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		int tall2 = 0;
