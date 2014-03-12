@@ -3,6 +3,8 @@ package DB;
 import java.sql.*;
 import java.util.ArrayList;
 
+import Main.Appointment;
+
 public class Database {
 	
 	DBConnection db;
@@ -14,10 +16,11 @@ public class Database {
 		Database databaseTest = new Database();
 //		databaseTest.addMeeting("14:00:00","15:00:00","2014-01-01","hei","fhdsja","Hallvard");
 //		databaseTest.addParticipants("Hallvard", 4);
-		databaseTest.addParticipants("Hallvard", 8);
+//		databaseTest.addParticipants("Hallvard", 8);
 //		databaseTest.getAppointments("Hallvard");
 //		databaseTest.getEmail("Hallvard");
-		databaseTest.getEmails(2);
+//		databaseTest.getEmails(2);
+		databaseTest.getAppointments("Hallvard");
 	}
 	
 	public Database(){
@@ -53,22 +56,25 @@ public class Database {
 		return epost;
 	}
 	
-	public void getAppointments(String user){
-		String query = "select avtaleid, starttid, sluttid, dato, sted, beskrivelse, moterom from Deltaker natural join Ansatt natural join Avtale where '" + user + "' = ansatt and avtale = avtaleid and brukernavn = '" + user + "'";
+	public ArrayList<Appointment> getAppointments(String user){
+		ArrayList<Appointment> liste = new ArrayList<Appointment>();
+		String query = "select avtaleid, starttid, sluttid, dato, sted, beskrivelse, moterom, motesjef from Deltaker natural join Ansatt natural join Avtale where '" + user + "' = ansatt and avtale = avtaleid and brukernavn = '" + user + "'";
 		ResultSet rs = db.readQuery(query);
 		try{
 			while(rs.next()){
-				String start = rs.getString("starttid");
-				String slutt = rs.getString("sluttid");
-				String dato = rs.getString("dato");
-				System.out.println(start);
-				System.out.println(slutt);
-				System.out.println(dato);
+				Appointment ap = new Appointment();
+				ap.startTime = rs.getString("starttid");
+				ap.endtime = rs.getString("sluttid");
+				ap.dato = rs.getString("dato");
+				ap.meetingLeader = rs.getString("motesjef");
+				ap.meetingRoom = rs.getInt("moterom");
+				liste.add(ap);
 			}
 			
 		}catch(SQLException e){
 			throw new RuntimeException(e);
 		}
+		return liste;
 	}
 	
 	public void addParticipants(String user, int id){

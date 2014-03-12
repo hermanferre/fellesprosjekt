@@ -45,6 +45,7 @@ public class SendEmail {
 		ArrayList<String> emails = getEmails(id);
 		try{
 			for(int i = 0; i < emails.size(); i++){
+			//for (emails : email)
 				Send("pu.gruppe42", "gruppe42fp", emails.get(i), "Emne", "text");
 			}
 		}catch(AddressException e){

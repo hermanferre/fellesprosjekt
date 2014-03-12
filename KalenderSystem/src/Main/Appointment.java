@@ -4,9 +4,9 @@ package Main;
 public class Appointment {
 
 	public  String startTime, endtime, dato, meetingLeader;
-	public  int meetingID;
+	public  int meetingID, meetingRoom;
 	
-	private String description, place;
+	public String description, place;
 	
 
 }
