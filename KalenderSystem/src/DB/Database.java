@@ -27,6 +27,17 @@ public class Database {
 		db = new DBConnection();
 	}
 	
+	public ArrayList<Integer> getAvRoom(int id){
+		ArrayList<Integer> rooms = new ArrayList<Integer>();
+		String query1 = "select starttid from Avtale where avtaleid = "+id+";";
+		String query1 = "select starttid from Avtale where avtaleid = "+id+";";
+		String query = null;
+		
+//		select romnr from Moterom minus where not (select moterom from Avtale where not (starttid <= '14:00:00' and sluttid <= '14:00:00' or starttid >= '15:00:00' and sluttid >= '15:00:00' and dato != 2014-01.01));
+		System.out.println(rooms);
+		return rooms;
+	}
+	
 	public ArrayList<String> getEmails(int id){
 		String query = "select epost from Ansatt natural join Deltaker where ansatt = brukernavn and avtale = "+id+";";
 		ArrayList<String> emails = new ArrayList<String>();
