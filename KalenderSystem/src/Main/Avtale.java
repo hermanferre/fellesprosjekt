@@ -9,7 +9,7 @@ public class Avtale {
 	
 	public static void main(String[] args){
 		Avtale a = new Avtale();
-//		a.addMeet();
+		a.addMeet();
 	}
 	
 	public void addMeet(){

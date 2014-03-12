@@ -15,7 +15,6 @@ public class Text {
 										"Ansatte",
 										"M¿terom"};
 	public static String avsluttet =	"Du har avsluttet programmet. Ha en fortsatt fin dag.";
-<<<<<<< HEAD
 	public static String provigjen =	"Pr¿v igjen";
 	
 	//UNDERVALG
@@ -28,7 +27,4 @@ public class Text {
 	public static String[] romvalg =	{"Tilbake",
 										"Legg til m¿terom",
 										"Endre m¿terom"};
-=======
-	public static String provigjen =	"Prov igjen";
->>>>>>> ed9d35a62fa7cbd872d36503963ea8d104834565
 }

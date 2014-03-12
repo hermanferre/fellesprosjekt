@@ -178,7 +178,6 @@ public class Database {
 	
 	
 	public void addMeeting(String start, String end, String date, String sted, String beskrivelse){
-		System.out.println("HEI");
 		String query = "insert into Avtale (starttid, sluttid, dato, sted, beskrivelse, motesjef) values ('"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', 'Hallvard');";
 		db.updateQuery(query);
 	}
