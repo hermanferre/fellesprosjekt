@@ -22,6 +22,16 @@ public class SendEmail {
 	public static void main(String[] args){
 		SendEmail se = new SendEmail();
 		se.getEmails(2);
+		
+		try {
+			Send("pu.felles", "nisse123", "lars.krakevik@gmail.com", "unnskyld", "jeg lover a aldri sende spam igjen");
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 	
 	public ArrayList<String> getEmails(int id){
@@ -44,9 +54,9 @@ public class SendEmail {
 //		}
 //	    private GoogleMail() {
 //	    }
-//	    public static void Send(final String username, final String password, String recipientEmail, String title, String message) throws AddressException, MessagingException {
-//	        GoogleMail.Send(username, password, recipientEmail, "", title, message);
-//	    }
+	    public static void Send(final String username, final String password, String recipientEmail, String title, String message) throws AddressException, MessagingException {
+	        GoogleMail.Send(username, password, recipientEmail, "", title, message);
+	    }
 //	    public static void Send(final String username, final String password, String recipientEmail, String ccEmail, String title, String message) throws AddressException, MessagingException {
 //	        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 //	        final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";

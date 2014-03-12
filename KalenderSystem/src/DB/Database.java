@@ -14,7 +14,7 @@ public class Database {
 		Database databaseTest = new Database();
 //		databaseTest.addMeeting("14:00:00","15:00:00","2014-01-01","hei","fhdsja","Hallvard");
 //		databaseTest.addParticipants("Hallvard", 4);
-//		databaseTest.addParticipants("Hallvard", 2);
+		databaseTest.addParticipants("Hallvard", 8);
 //		databaseTest.getAppointments("Hallvard");
 //		databaseTest.getEmail("Hallvard");
 		databaseTest.getEmails(2);
@@ -73,18 +73,15 @@ public class Database {
 	
 	public void addParticipants(String user, int id){
 		String query1 = "insert into Deltaker (ansatt, avtale) values ('" + user + "', " + id + ");";
-		String query2 = "select ansatt, avtale from Deltaker where ansatt = '" + "' and avtale = " + id + ";";
+		String query2 = "select ansatt, avtale from Deltaker where ansatt = '" +user+ "' and avtale = " + id + ";";
 		ResultSet rs = db.readQuery(query2);
 		try {
-			System.out.println(rs.next());
-			if(rs.next()){
+			if(!(rs.next())){
 				db.updateQuery(query1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			throw new RuntimeException(e);
 		}
-//		db.updateQuery(query);
 	}
 	
 	public String getMoteleder(int id){
