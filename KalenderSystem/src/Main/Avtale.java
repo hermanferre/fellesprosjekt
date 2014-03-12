@@ -1,6 +1,6 @@
 package Main;
 
-import java.util.Scanner;
+import java.util.Scanner; 
 
 import DB.*;
 
@@ -9,6 +9,7 @@ public class Avtale {
 	
 	public static void main(String[] args){
 		Avtale a = new Avtale();
+		System.out.println("HEI");
 		a.addMeet();
 	}
 	
@@ -28,6 +29,7 @@ public class Avtale {
 	}
 	
 	public void addParticipants(String user, int id){
+		
 		db.addParticipants(user, id);
 	}
 	
