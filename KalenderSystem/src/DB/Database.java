@@ -130,19 +130,8 @@ public class Database {
 	}
 	
 	
-	public void addMeeting(String start, String end, String date, String sted, String beskrivelse, String leader){
-		String antall = "select count(*) from Avtale;";
-		ResultSet rs = db.readQuery(antall);
-		int id = 0;
-		try{
-			if(rs.next()){
-				id = rs.getInt(1);
-			}
-		}catch(SQLException e){
-			throw new RuntimeException(e);
-		}
-		id++;
-		String query = "insert into Avtale values ("+id+",'"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', null,'"+leader+"');";
+	public void addMeeting(String start, String end, String date, String sted, String beskrivelse){
+		String query = "insert into Avtale values ('"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', null,'Hallvard');";
 		db.updateQuery(query);
 	}
 	

@@ -24,7 +24,7 @@ public class Avtale {
 		String sted = sc.next();
 		System.out.println("Angi beskrivelse:");
 		String be = sc.next();
-		db.addMeeting(start, end, date, sted, be, "Hallvard");
+		db.addMeeting(start, end, date, sted, be);
 	}
 	
 	public void addParticipants(String user, int id){

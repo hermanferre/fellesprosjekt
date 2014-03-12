@@ -29,6 +29,7 @@ public class EditAvtale {
 		System.out.println("4: endre sted");
 		System.out.println("5: endre beskrivelse");
 		System.out.println("6: endre moterom");
+		System.out.println("7: slette avtale");
 		sc = new Scanner(System.in);
 		int com = sc.nextInt();
 		
@@ -44,9 +45,16 @@ public class EditAvtale {
 				editBeskrivelse(tall);
 			else if(com == 6)
 				editMoterom(tall);
+			else if(com == 7)
+				removeMote(tall);
 			else
 				System.out.println("ikke gyldig tall");	
 		}
+	
+	public void removeMote(int id){
+		db.removeMeeting(id);
+	}
+	
 	public void editStart(int ID){
 		System.out.println("Legg til ny starttid(HH:MM:SS): ");
 		Scanner sc = new Scanner(System.in);
