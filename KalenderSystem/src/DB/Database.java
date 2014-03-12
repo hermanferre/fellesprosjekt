@@ -16,11 +16,26 @@ public class Database {
 //		databaseTest.addParticipants("Hallvard", 4);
 //		databaseTest.addParticipants("Hallvard", 2);
 //		databaseTest.getAppointments("Hallvard");
-		databaseTest.getEmail("Hallvard");
+//		databaseTest.getEmail("Hallvard");
+		databaseTest.getEmails(2);
 	}
 	
 	public Database(){
 		db = new DBConnection();
+	}
+	
+	public ArrayList<String> getEmails(int id){
+		String query = "select epost from Ansatt natural join Deltaker where ansatt = brukernavn and avtale = "+id+";";
+		ArrayList<String> emails = new ArrayList<String>();
+		ResultSet rs = db.readQuery(query);
+		try{
+			while(rs.next()){
+				emails.add(rs.getString("epost"));
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return emails;
 	}
 	
 	public String getEmail(String user){
