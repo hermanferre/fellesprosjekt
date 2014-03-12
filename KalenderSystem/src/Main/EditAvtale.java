@@ -30,6 +30,7 @@ public class EditAvtale {
 		System.out.println("5: endre beskrivelse");
 		System.out.println("6: endre moterom");
 		System.out.println("7: slette avtale");
+		System.out.println("8: legg til deltakere");
 		sc = new Scanner(System.in);
 		int com = sc.nextInt();
 		
@@ -47,12 +48,59 @@ public class EditAvtale {
 				editMoterom(tall);
 			else if(com == 7)
 				removeMote(tall);
+			else if(com == 8)
+				leggTilDeltaker(tall);
 			else
 				System.out.println("ikke gyldig tall");	
 		}
 	
 	public void removeMote(int id){
 		db.removeMeeting(id);
+	}
+	
+	private void leggTilDeltaker(int id) {
+		
+		//TODO: sjekk om innlogga bruker er møteleder
+		/*
+		if( .... != ....) {
+			System.out.println("Du er ikke møteleder");
+			return;
+		}
+		*/
+		
+		ArrayList<String> brukernavnliste = db.getUsername();
+		
+		Scanner sc = new Scanner(System.in);
+		boolean fortsett = true;
+		
+		while ( fortsett ) {
+			System.out.println("Inviter deltakere til møte");
+			
+			
+			System.out.println("For å legge til deltaker, skriv inn brukernavnet til deltakeren du vil invitere");
+			System.out.println("Skriv inn \'listbrukere\' for å få ei lsite over alle brukere");
+			System.out.println("Skriv inn \'Avslutt\' for å avslutte\n");
+			
+			String innputt = sc.nextLine();
+			
+			
+			if(innputt.equalsIgnoreCase("Avslutt")) {
+				fortsett = false;
+			} else if( innputt.equalsIgnoreCase("listbrukere")) {
+				for(int i = 0; i < brukernavnliste.size(); i++) {
+					System.out.print(brukernavnliste.get(i) + ", ");
+				}
+				System.out.println();
+			} else if( brukernavnliste.contains(innputt)) {
+				db.addParticipants(innputt, id);
+				
+			} else {
+				System.out.println(innputt+ " er ikke en gyldig kommando eller brukernavn. Prøv på nytt");
+			}
+			
+			
+		
+		}
 	}
 	
 	public void editStart(int ID){
