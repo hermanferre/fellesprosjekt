@@ -18,6 +18,7 @@ public class KalenderSystem {
 	boolean run;
 	EditAvtale ea;
 	Avtale a;
+	private static String user;
 
 	public KalenderSystem() {
 		db = new Database();
@@ -45,6 +46,7 @@ public class KalenderSystem {
 			if (data[1].equals(db.getPassword(data[0]))) {
 				System.out.println(Text.logginn_ok);
 				loggedin = true;
+				user = data[0];
 			} else {
 				System.out.println(Text.logginn_feil);
 				//System.out.println("Passord skulle v¾rt \""+db.getPassword(data[0])+"\", men var \""+data[1]+"\"");
@@ -89,7 +91,6 @@ public class KalenderSystem {
 		case 1: a.addMeet(); break;
 		case 2: ea.editMeny(); break;
 		}
-		
 	}
 
 	private void employeeMenu() {
@@ -113,6 +114,10 @@ public class KalenderSystem {
 			System.out.println(i+".\t"+valg[i]);
 		}
 		return scanner.nextInt();
+	}
+	
+	public static String getUser() {
+		return user;
 	}
 
 }

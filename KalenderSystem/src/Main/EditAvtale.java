@@ -11,13 +11,8 @@ public class EditAvtale {
 	SendEmail se = new SendEmail();
 	
 	public static void main(String[] args){
-<<<<<<< HEAD
 			EditAvtale ea = new EditAvtale();
 			ea.editMeny();
-=======
-		EditAvtale ea = new EditAvtale();
-//		ea.editMeny();
->>>>>>> d248d4bf5a5434fcb2ebda6d723608548e5ccac1
 	}
 
 	public void editMeny(){
@@ -31,9 +26,9 @@ public class EditAvtale {
 			System.out.println("Dette var ikke et tall. Føkk deg");
 		}
 		
-		if  {
+		/*if ()  {
 			
-		}
+		}*/
 		
 		
 		System.out.println("1: endre starttid");
