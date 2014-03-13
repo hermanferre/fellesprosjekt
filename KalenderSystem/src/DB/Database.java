@@ -169,7 +169,6 @@ public class Database {
 
 	
 	public String getStartTime(int avtaleID){
-		System.out.println("FITTE");
 		String query = "select starttid from Avtale where avtaleid = " + avtaleID + ";";
 		ResultSet rs = db.readQuery(query);
 		Time start = null;
