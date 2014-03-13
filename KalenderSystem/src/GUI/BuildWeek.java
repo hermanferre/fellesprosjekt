@@ -1,7 +1,9 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
@@ -11,38 +13,56 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 
 import DB.Database;
 import Main.Appointment;
 
 public class BuildWeek extends JDialog implements ActionListener {
 	
-	private static final int ANTALL_RADER = 24;
-	private static final int ANTALL_KOLONNER = 8; 
+	private static final int ANTALL_RADER = 25;
+	private static final int ANTALL_KOLONNER = 8;
+	private static final int TABELLMELLOMROM = 1; //piksler
+	private static final Color AVTALEFARGE = new Color(0x816AEB);
+	private static final Color MOTELEDERFARGE = Color.red;
+	
+	private static Color STANDARDFARGE = Color.LIGHT_GRAY;
+	private static Font STANDARDFONT;
+	private static Font FETFONT;
 	
 	private JButton nesteukeknapp, forjeukeknapp, lukkeknapp;
 	private JLabel labelukenummer;
 	private JScrollPane skrolleomrade;
 	
-	private String[] kolonner = {"Klokkeslett", "Mandag","Tirsdag", "Onsdag", "Torsdag", 
+	private static final String[] kolonneoverskrift = {"Klokka", "Mandag","Tirsdag", "Onsdag", "Torsdag", 
 			"Fredag", "Lørdag", "Søndag"};
 	
 	private JLabel[][] tabell;
 	private JPanel tabellbeholder;
 	
-	private int ukenummer;
+	private int ukenummer, aar;
+	private String brukernavn;
+	Database db;
 	
-	public BuildWeek() {
-		setTitle("ukeoversikt");
+	public BuildWeek(String brukernavn) {
+		STANDARDFARGE = getBackground();
+		
+		
+		setTitle(brukernavn + " sin ukeoversikt");
+		this.brukernavn = brukernavn;
+		db = new Database();
 		
 		Calendar cal = Calendar.getInstance();
 		ukenummer = cal.get(Calendar.WEEK_OF_YEAR);
+		aar = cal.get(Calendar.YEAR);
 		
 		Container cont = getContentPane();
 		
@@ -62,20 +82,10 @@ public class BuildWeek extends JDialog implements ActionListener {
 		lukkeknapp = new JButton("Lukk");
 		lukkeknapp.addActionListener(this);
 		
-		skrolleomrade = new JScrollPane();
-		tabellbeholder = new JPanel(new GridLayout(ANTALL_RADER, ANTALL_KOLONNER));
-		tabell = new JLabel[ANTALL_RADER][ANTALL_KOLONNER];
-	
-		for(int rad = 0; rad < ANTALL_RADER; rad++) {
-			for(int kol = 0; kol < ANTALL_KOLONNER; kol++) {
-				tabell[rad][kol] = new JLabel(" ");
-				tabellbeholder.add(tabell[rad][kol]);
-				System.out.println(rad+ " " + kol);
-			}
-		}
-
 		
-		skrolleomrade.add(tabellbeholder);
+		initTabell();
+
+		skrolleomrade = new JScrollPane(tabellbeholder);
 		cont.add(skrolleomrade, BorderLayout.CENTER);
 		
 		
@@ -85,6 +95,49 @@ public class BuildWeek extends JDialog implements ActionListener {
 		
 	}
 	
+	private void initTabell() {
+		Border blackline = BorderFactory.createLineBorder(Color.black);
+		
+		
+		tabellbeholder = new JPanel(
+				new GridLayout(ANTALL_RADER, ANTALL_KOLONNER,
+						TABELLMELLOMROM, TABELLMELLOMROM));
+		tabell = new JLabel[ANTALL_RADER][ANTALL_KOLONNER];
+	
+		//initialiser Jlabelene
+		for(int rad = 0; rad < ANTALL_RADER; rad++) {
+			for(int kol = 0; kol < ANTALL_KOLONNER; kol++) {
+				tabell[rad][kol] = new JLabel(" ");
+				tabell[rad][kol].setBorder(blackline); 
+				tabellbeholder.add(tabell[rad][kol]);
+				//System.out.println(rad+ " " + kol);
+			}
+		}
+		
+		//lag klokkeslett i første kolonne
+		for(int rad = 1; rad < ANTALL_RADER; rad++) {
+			tabell[rad][0].setText(String.format("%02d", rad-1));
+		}
+		
+		
+		
+		oppdaterukevisning();
+	}
+	
+	private void rengjorTable() {
+		
+		for(int rad = 1; rad < ANTALL_RADER; rad++) {
+			for(int kol = 1; kol < ANTALL_KOLONNER; kol++) {
+			
+				tabell[rad][kol].setText(" "); 
+				tabell[rad][kol].setBackground(STANDARDFARGE);
+				tabell[rad][kol].setOpaque(false);
+			}
+		}
+		
+	}
+	
+	
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource(); 
 		
@@ -93,9 +146,21 @@ public class BuildWeek extends JDialog implements ActionListener {
 			dispose();
 		} else if(source == nesteukeknapp) {
 			ukenummer++;
+			
+			if(ukenummer > 52) {
+				aar++;
+				ukenummer = 1;
+			}
+			
 			oppdaterukevisning();
 		} else if(source == forjeukeknapp) {
 			ukenummer--;
+			
+			if(ukenummer < 1) {
+				aar--;
+				ukenummer = 52;
+			}
+			
 			oppdaterukevisning();
 			
 		}
@@ -103,27 +168,37 @@ public class BuildWeek extends JDialog implements ActionListener {
 	}
 	
 	public void oppdaterukevisning() {
-		labelukenummer.setText(""+ukenummer);
-	}
-	
-	public static void buidlWeek(String brukernavn, int ukenummer) {
-		Database db = new Database();
+		labelukenummer.setText("uke "+ukenummer+ " "+aar);
+		rengjorTable();
 		
+		//lag kolonneoversikt
+		Calendar cal = getMandagKalender();
+		DateFormat dateFormat = new SimpleDateFormat("dd.MM");
+		
+		tabell[0][0].setText(kolonneoverskrift[0]);
+		
+		for(int kol = 1; kol < ANTALL_KOLONNER; kol++) {
+			tabell[0][kol].setText(kolonneoverskrift[kol]);
+			
+			
+			String tekst = kolonneoverskrift[kol]+ " ( " + 
+					dateFormat.format(cal.getTime()) + " ) ";
+			
+			
+			tabell[0][kol].setText(tekst);
+			
+			cal.add(Calendar.DATE, 1);
+				
+		}
 		
 		ArrayList<Appointment> avtaleliste = db.getAppointments(brukernavn);
-		
-		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.WEEK_OF_YEAR, ukenummer);
-		
-		
-		//set kalenderobjektet til mandag
-		cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		cal = getMandagKalender();
 		
 		
 		//løkk igjennom uka
-		for( int j = 0; j < 7; j++) {
+		for( int kol = 1; kol < 8; kol++) {
+
 			//System.out.println(dateFormat.format(cal.getTime()));
 			
 			
@@ -134,7 +209,27 @@ public class BuildWeek extends JDialog implements ActionListener {
 				Appointment avtale = avtaleliste.get(i);
 				
 				if(avtale.dato.equals(dateFormat.format(cal.getTime()))) {
-					System.out.print(avtale.description);
+					
+					int klokkeindeksStart = Integer.parseInt(avtale.startTime.substring(0,2));
+					int klokkeindeksSlutt = Integer.parseInt(avtale.endtime.substring(0,2));
+
+					//sett beskrivelse som tekst på første rute
+					tabell[klokkeindeksStart][kol].setText(avtale.description);
+					
+					
+					//set fage på alle relevante rueter
+					for(int klokka = klokkeindeksStart; klokka < klokkeindeksSlutt; klokka++) {
+						tabell[klokka][kol].setOpaque(true);
+						tabell[klokka][kol].setForeground(Color.white);
+
+						if(brukernavn.equals(avtale.meetingLeader)) {
+							tabell[klokka][kol].setBackground(MOTELEDERFARGE);
+						} else {
+							tabell[klokka][kol].setBackground(AVTALEFARGE);
+							
+						}
+						
+					}
 				}
 			}
 			
@@ -142,19 +237,30 @@ public class BuildWeek extends JDialog implements ActionListener {
 
 		}
 		
-
-		
 		
 	}
+	
+	private Calendar getMandagKalender() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.WEEK_OF_YEAR, ukenummer);
+		cal.set(Calendar.YEAR, aar);
+		cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+		
+		return cal;
+	}
+		
 
+		
+		
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		//buidlWeek("Hallvard", 11);
 		
-		System.out.println("woethwohit3");
-		BuildWeek buildweek = new BuildWeek();
+		//String brukernavn =JOptionPane
+		
+		BuildWeek buildweek = new BuildWeek("Hallvard");
 		buildweek.setVisible(true);
 
 	}
