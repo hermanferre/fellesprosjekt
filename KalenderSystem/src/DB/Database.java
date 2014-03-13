@@ -163,6 +163,7 @@ public class Database {
 				ap.meetingLeader = rs.getString("motesjef");
 				ap.description = rs.getString("beskrivelse");
 				ap.meetingRoom = rs.getInt("moterom");
+				ap.meetingID = rs.getInt("avtaleid");
 				liste.add(ap);
 			}
 			
