@@ -214,13 +214,14 @@ public class Database {
 		}
 		String date = dato.toString();
 		return date;
-	}
+	}//christian er kul
 	
 	public String getVarighet(int AVTALEID) {
 		String sql1 = "select STARTTID from Avtale where AVTALEID = "+AVTALEID;
 		String sql2 = "select SLUTTID from Avtale where AVTALEID = "+AVTALEID;
 		String sql3 = "select TIMEDIFF (("+sql2+"), (" +sql1+"));";
 		ResultSet rs = db.readQuery(sql3);
+		System.out.println("JONGE RULER!!!");
 		String varighet = null;
 		try {
 			if (rs.next()){
