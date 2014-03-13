@@ -26,12 +26,26 @@ public class Database {
 //		System.out.println(hei);
 //		System.out.println(databaseTest.getAvtaleId());
 //		databaseTest.addParticipants("Hallvard", 43);
+//		databaseTest.removeParticipants("Hallvard", 43);
 	}
 	
 	public Database(){
 		db = new DBConnection();
 	}
 	
+	public ArrayList<String> getParticipants(int id){
+		ArrayList<String> par = new ArrayList<String>();
+		String query = "select ansatt from Deltaker where avtale = "+id+";";
+		ResultSet rs = db.readQuery(query);
+		try{
+			while(rs.next()){
+				par.add(rs.getString("ansatt"));
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return par;
+	}
 	
 	public void addParticipants(String user, int id){
 		String query1 = "insert into Deltaker (ansatt, avtale) values ('" + user + "', " + id + ");";
@@ -44,6 +58,11 @@ public class Database {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public void removeParticipants(String user, int id){
+		String query = "delete from Deltaker where ansatt = '"+user+"' and avtale = "+id+";";
+		db.updateQuery(query);
 	}
 	
 	public int getAvtaleId(){

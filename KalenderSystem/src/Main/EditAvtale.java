@@ -31,8 +31,6 @@ public class EditAvtale {
 		}*/
 		String sjef = db.getMoteleder(tall);
 		String leder = KalenderSystem.getUser();
-		System.out.println(sjef);
-		System.out.println(leder);
 		if(sjef.equals(leder)){
 			System.out.println("1: endre starttid");
 			System.out.println("2: endre sluttid");
@@ -42,6 +40,7 @@ public class EditAvtale {
 			System.out.println("6: endre moterom");
 			System.out.println("7: slette avtale");
 			System.out.println("8: legg til deltakere");
+			System.out.println("9: fjern deltaker");
 			sc = new Scanner(System.in);
 			int com = sc.nextInt();
 			
@@ -61,12 +60,22 @@ public class EditAvtale {
 					removeMote(tall);
 				else if(com == 8)
 					leggTilDeltaker(tall);
+				else if(com == 9)
+					removeDeltaker(tall);
 				else
 					System.out.println("ikke gyldig tall");
 			}else{
 				System.out.println("Du er ikke moteleder");
 			}
 		}
+	public void removeDeltaker(int id){
+		System.out.println("Deltakerliste:");
+		System.out.println(db.getParticipants(id));
+		System.out.println("Skriv inn brukernavn du vil fjerne:");
+		Scanner sc = new Scanner(System.in);
+		String user = sc.next();
+		db.removeParticipants(user, id);
+	}
 	
 	public void removeMote(int id){
 		String sjef = db.getMoteleder(id);
