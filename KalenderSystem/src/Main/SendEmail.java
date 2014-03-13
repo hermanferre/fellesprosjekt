@@ -29,6 +29,24 @@ public class SendEmail {
 		return emails;
 	}
 	
+	public String getEmail(String user){
+		String email = null;
+		email = db.getEmail(user);
+		return email;
+	}
+	
+	public void sendEmailOne(int id, String message, String user){
+		String email = getEmail(user);
+		try{
+			//for (emails : email)
+			Send("pu.gruppe42", "gruppe42fp", email, "Emne", message);
+		}catch(AddressException e){
+			e.printStackTrace();
+		}catch(MessagingException e){
+			e.printStackTrace();
+		}
+	}
+	
 	public void sendEmail(int id, String message){
 		ArrayList<String> emails = getEmails(id);
 		try{

@@ -106,9 +106,9 @@ public class EditAvtale {
 			System.out.println("Inviter deltakere til mote");
 			
 			
-			System.out.println("For å legge til deltaker, skriv inn brukernavnet til deltakeren du vil invitere");
-			System.out.println("Skriv inn \'listbrukere\' for å få ei lsite over alle brukere");
-			System.out.println("Skriv inn \'Avslutt\' for å avslutte\n");
+			System.out.println("For a legge til deltaker, skriv inn brukernavnet til deltakeren du vil invitere");
+			System.out.println("Skriv inn \'listbrukere\' for a fa ei lsite over alle brukere");
+			System.out.println("Skriv inn \'Avslutt\' for a avslutte\n");
 			
 			String innputt = sc.nextLine();
 			
@@ -122,9 +122,11 @@ public class EditAvtale {
 				System.out.println();
 			} else if( brukernavnliste.contains(innputt)) {
 				db.addParticipants(innputt, id);
+				String message = "Du er lagt til i mote nr "+id;
+				se.sendEmailOne(id, message, innputt);
 				
 			} else {
-				System.out.println(innputt+ " er ikke en gyldig kommando eller brukernavn. Prøv på nytt");
+				System.out.println(innputt+ " er ikke en gyldig kommando eller brukernavn. Prov pa nytt");
 			}
 			
 			

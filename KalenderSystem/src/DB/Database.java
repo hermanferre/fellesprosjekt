@@ -27,11 +27,25 @@ public class Database {
 //		System.out.println(databaseTest.getAvtaleId());
 //		databaseTest.addParticipants("Hallvard", 43);
 //		databaseTest.removeParticipants("Hallvard", 43);
-		System.out.println(databaseTest.getAtParticipants(2));
+		System.out.println(databaseTest.getMail("Hallvard"));
 	}
 	
 	public Database(){
 		db = new DBConnection();
+	}
+	
+	public String getMail(String user){
+		String epost = null;
+		String query = "select epost from Ansatt where brukernavn = '"+user+"';";
+		ResultSet rs = db.readQuery(query);
+		try{
+			if(rs.next()){
+				epost = rs.getString("epost");
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return epost;
 	}
 	
 	public ArrayList<String> getParticipants(int id){
