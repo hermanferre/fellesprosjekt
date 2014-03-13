@@ -11,8 +11,13 @@ public class EditAvtale {
 	SendEmail se = new SendEmail();
 	
 	public static void main(String[] args){
+<<<<<<< HEAD
+			EditAvtale ea = new EditAvtale();
+			ea.editMeny();
+=======
 		EditAvtale ea = new EditAvtale();
-		ea.editMeny();
+//		ea.editMeny();
+>>>>>>> d248d4bf5a5434fcb2ebda6d723608548e5ccac1
 	}
 
 	public void editMeny(){
@@ -25,6 +30,11 @@ public class EditAvtale {
 		} catch (NumberFormatException e) {
 			System.out.println("Dette var ikke et tall. Føkk deg");
 		}
+		
+		if  {
+			
+		}
+		
 		
 		System.out.println("1: endre starttid");
 		System.out.println("2: endre sluttid");
@@ -142,7 +152,10 @@ public class EditAvtale {
 		se.sendEmail(ID, "Ny beskrivelse for mote " + ID + " er " + com);
 	}
 	public void editMoterom(int ID){
-		System.out.println("Legg til nytt møterom: ");
+		System.out.println("Legg til nytt moterom: ");
+		ArrayList<Integer> avRooms = db.getAvRoom(ID);
+		System.out.println("Ledige room er:");
+		System.out.println(avRooms);
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		int tall2 = 0;

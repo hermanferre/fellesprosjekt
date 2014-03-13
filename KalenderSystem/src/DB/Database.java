@@ -8,23 +8,53 @@ import Main.Appointment;
 public class Database {
 	
 	DBConnection db;
+	static Database databaseTest;
 	/**
 	 * @param args
 	 * @throws SQLException 
 	 */
 	public static void main(String[] args) throws SQLException {
-		Database databaseTest = new Database();
+		databaseTest = new Database();
 //		databaseTest.addMeeting("14:00:00","15:00:00","2014-01-01","hei","fhdsja","Hallvard");
 //		databaseTest.addParticipants("Hallvard", 4);
 //		databaseTest.addParticipants("Hallvard", 8);
 //		databaseTest.getAppointments("Hallvard");
 //		databaseTest.getEmail("Hallvard");
 //		databaseTest.getEmails(2);
-		databaseTest.getAppointments("Hallvard");
+//		databaseTest.getAvRoom(22);
+//		String hei = databaseTest.getDate(26);
+//		System.out.println(hei);
 	}
 	
 	public Database(){
 		db = new DBConnection();
+	}
+	
+	public ArrayList<Integer> getAvRoom(int id){
+		ArrayList<Integer> rooms = new ArrayList<Integer>();
+		ArrayList<Integer> opRooms = new ArrayList<Integer>();
+		ArrayList<Integer> avRooms = new ArrayList<Integer>();
+		String start = getStartTime(id);
+		String end = getEndTime(id);
+		String date = getDate(id);
+		String query1 = "select moterom from Avtale where not ((starttid <= '"+start+"' and sluttid <= '"+start+"' or starttid >= '"+end+"' and sluttid >= '"+end+"')) and dato = '"+date+"';";
+		ResultSet rs = db.readQuery(query1);
+		try{
+			while(rs.next()){
+				opRooms.add(rs.getInt("moterom"));
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		rooms = getRooms();
+		for(int i = 0; i < rooms.size(); i++){
+			if(opRooms.contains(rooms.get(i))){
+				
+			}else{
+				avRooms.add(rooms.get(i));
+			}
+		}
+		return avRooms;
 	}
 	
 	public ArrayList<String> getEmails(int id){
@@ -140,6 +170,7 @@ public class Database {
 
 	
 	public String getStartTime(int avtaleID){
+		System.out.println("FITTE");
 		String query = "select starttid from Avtale where avtaleid = " + avtaleID + ";";
 		ResultSet rs = db.readQuery(query);
 		Time start = null;
