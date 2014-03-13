@@ -27,6 +27,7 @@ public class Database {
 //		System.out.println(databaseTest.getAvtaleId());
 //		databaseTest.addParticipants("Hallvard", 43);
 //		databaseTest.removeParticipants("Hallvard", 43);
+		System.out.println(databaseTest.getAtParticipants(2));
 	}
 	
 	public Database(){
@@ -45,6 +46,20 @@ public class Database {
 			throw new RuntimeException(e);
 		}
 		return par;
+	}
+	
+	public ArrayList<String> getAtParticipants(int id){
+		ArrayList<String> atPar = new ArrayList<String>();
+		String query = "select ansatt from Deltaker where avtale = "+id+" and deltar = true;";
+		ResultSet rs = db.readQuery(query);
+		try{
+			while(rs.next()){
+				atPar.add(rs.getString("ansatt"));
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return atPar;
 	}
 	
 	public void addParticipants(String user, int id){
