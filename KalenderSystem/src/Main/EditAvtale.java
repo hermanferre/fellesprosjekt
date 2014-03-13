@@ -8,8 +8,8 @@ public class EditAvtale {
 	Database db = new Database();
 	
 	public static void main(String[] args){
-		EditAvtale ea = new EditAvtale();
-		ea.editMeny();
+			EditAvtale ea = new EditAvtale();
+			ea.editMeny();
 	}
 
 	public void editMeny(){
@@ -22,6 +22,11 @@ public class EditAvtale {
 		} catch (NumberFormatException e) {
 			System.out.println("Dette var ikke et tall. Føkk deg");
 		}
+		
+		if  {
+			
+		}
+		
 		
 		System.out.println("1: endre starttid");
 		System.out.println("2: endre sluttid");
