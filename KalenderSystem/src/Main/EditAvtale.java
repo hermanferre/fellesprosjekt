@@ -58,6 +58,7 @@ public class EditAvtale {
 		}
 	
 	public void removeMote(int id){
+		String sjef = db.getMoteleder(id);
 		db.removeMeeting(id);
 	}
 	
