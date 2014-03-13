@@ -30,9 +30,10 @@ public class BuildWeek extends JDialog implements ActionListener {
 	
 	private static final int ANTALL_RADER = 25;
 	private static final int ANTALL_KOLONNER = 8;
-	private static final int TABELLMELLOMROM = 1; //piksler
+	private static final int TABELLMELLOMROM = 0; //piksler
 	private static final Color AVTALEFARGE = new Color(0x816AEB);
 	private static final Color MOTELEDERFARGE = Color.red;
+	private static final Border SVART_GRENSE =  BorderFactory.createLineBorder(Color.black);
 	
 	private static Color STANDARDFARGE = Color.LIGHT_GRAY;
 	private static Font STANDARDFONT;
@@ -66,7 +67,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 		
 		Container cont = getContentPane();
 		
-		JPanel verktøylinje = new JPanel();
+		JPanel verktoylinje = new JPanel();
 		nesteukeknapp = new JButton("->");
 		forjeukeknapp = new JButton("<-");
 		nesteukeknapp.addActionListener(this);
@@ -74,9 +75,9 @@ public class BuildWeek extends JDialog implements ActionListener {
 		
 		labelukenummer = new JLabel(""+ukenummer);
 		
-		verktøylinje.add(forjeukeknapp);
-		verktøylinje.add(labelukenummer);
-		verktøylinje.add(nesteukeknapp);
+		verktoylinje.add(forjeukeknapp);
+		verktoylinje.add(labelukenummer);
+		verktoylinje.add(nesteukeknapp);
 		
 		
 		lukkeknapp = new JButton("Lukk");
@@ -89,14 +90,13 @@ public class BuildWeek extends JDialog implements ActionListener {
 		cont.add(skrolleomrade, BorderLayout.CENTER);
 		
 		
-		cont.add(verktøylinje, BorderLayout.NORTH);
+		cont.add(verktoylinje, BorderLayout.NORTH);
 		cont.add(lukkeknapp, BorderLayout.SOUTH);
 		pack();
 		
 	}
 	
 	private void initTabell() {
-		Border blackline = BorderFactory.createLineBorder(Color.black);
 		
 		
 		tabellbeholder = new JPanel(
@@ -108,9 +108,9 @@ public class BuildWeek extends JDialog implements ActionListener {
 		for(int rad = 0; rad < ANTALL_RADER; rad++) {
 			for(int kol = 0; kol < ANTALL_KOLONNER; kol++) {
 				tabell[rad][kol] = new JLabel(" ");
-				tabell[rad][kol].setBorder(blackline); 
 				tabellbeholder.add(tabell[rad][kol]);
 				//System.out.println(rad+ " " + kol);
+				tabell[rad][kol].setBorder(SVART_GRENSE); 
 			}
 		}
 		
@@ -131,6 +131,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 			
 				tabell[rad][kol].setText(" "); 
 				tabell[rad][kol].setBackground(STANDARDFARGE);
+				tabell[rad][kol].setBorder(SVART_GRENSE); 
 				tabell[rad][kol].setOpaque(false);
 			}
 		}
@@ -219,15 +220,20 @@ public class BuildWeek extends JDialog implements ActionListener {
 					
 					//set fage på alle relevante rueter
 					for(int klokka = klokkeindeksStart; klokka < klokkeindeksSlutt; klokka++) {
-						tabell[klokka][kol].setOpaque(true);
-						tabell[klokka][kol].setForeground(Color.white);
+						
+						JLabel rute = tabell[klokka][kol];
+						
+						rute.setOpaque(true);
+						rute.setForeground(Color.white);
 
 						if(brukernavn.equals(avtale.meetingLeader)) {
-							tabell[klokka][kol].setBackground(MOTELEDERFARGE);
+							rute.setBackground(MOTELEDERFARGE);
 						} else {
-							tabell[klokka][kol].setBackground(AVTALEFARGE);
+							rute.setBackground(AVTALEFARGE);
 							
 						}
+						rute.setBorder(BorderFactory.createLineBorder(
+								rute.getBackground()));
 						
 					}
 				}

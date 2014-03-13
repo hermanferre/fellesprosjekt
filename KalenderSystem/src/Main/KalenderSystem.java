@@ -81,8 +81,8 @@ public class KalenderSystem {
 	}
 
 	private void myCalendar() {
-		System.out.println("Vise kalender");
-		
+		BuildWeek bw = new BuildWeek(getUser());
+		bw.setVisible(true);
 	}
 
 	private void appointmentMenu() {
