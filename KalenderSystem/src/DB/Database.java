@@ -67,6 +67,7 @@ public class Database {
 				ap.endtime = rs.getString("sluttid");
 				ap.dato = rs.getString("dato");
 				ap.meetingLeader = rs.getString("motesjef");
+				ap.description = rs.getString("beskrivelse");
 				ap.meetingRoom = rs.getInt("moterom");
 				liste.add(ap);
 			}

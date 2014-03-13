@@ -2,6 +2,8 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -21,11 +23,14 @@ import Main.Appointment;
 
 public class BuildWeek extends JDialog implements ActionListener {
 	
+	private static final int ANTALL_RADER = 24;
+	private static final int ANTALL_KOLONNER = 8; 
+	
 	private JButton nesteukeknapp, forjeukeknapp, lukkeknapp;
 	private JLabel labelukenummer;
 	private JScrollPane skrolleomrade;
 	
-	private String[] kolonner = {"Mandag","Tirsdag", "Onsdag", "Torsdag", 
+	private String[] kolonner = {"Klokkeslett", "Mandag","Tirsdag", "Onsdag", "Torsdag", 
 			"Fredag", "Lørdag", "Søndag"};
 	
 	private JLabel[][] tabell;
@@ -58,8 +63,20 @@ public class BuildWeek extends JDialog implements ActionListener {
 		lukkeknapp.addActionListener(this);
 		
 		skrolleomrade = new JScrollPane();
-		cont.add(skrolleomrade, BorderLayout.CENTER);
+		tabellbeholder = new JPanel(new GridLayout(ANTALL_RADER, ANTALL_KOLONNER));
+		tabell = new JLabel[ANTALL_RADER][ANTALL_KOLONNER];
+	
+		for(int rad = 0; rad < ANTALL_RADER; rad++) {
+			for(int kol = 0; kol < ANTALL_KOLONNER; kol++) {
+				tabell[rad][kol] = new JLabel(" ");
+				tabellbeholder.add(tabell[rad][kol]);
+				System.out.println(rad+ " " + kol);
+			}
+		}
+
 		
+		skrolleomrade.add(tabellbeholder);
+		cont.add(skrolleomrade, BorderLayout.CENTER);
 		
 		
 		cont.add(verktøylinje, BorderLayout.NORTH);
@@ -136,6 +153,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 	public static void main(String[] args) {
 		//buidlWeek("Hallvard", 11);
 		
+		System.out.println("woethwohit3");
 		BuildWeek buildweek = new BuildWeek();
 		buildweek.setVisible(true);
 
