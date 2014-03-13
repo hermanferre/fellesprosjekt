@@ -87,7 +87,7 @@ public class KalenderSystem {
 		case 1: showCalendar(getUser()); break;
 		case 2: break;
 		case 3: 
-			System.out.println("Hvilken bruker?");
+			System.out.println(Text.hvilkenbruker);
 			showCalendar(scanner.next()); break;
 		}
 		

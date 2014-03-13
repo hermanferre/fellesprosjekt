@@ -23,6 +23,7 @@ public class Text {
 										"Ukesoversikt",
 										"Status/invitasjoner",
 										"Vis ukesoversikt for en annen bruker"};
+	public static String hvilkenbruker= "Hvilken bruker?";
 	public static String[] avtalevalg =	{"Tilbake",
 										"Legg til avtale",
 										"Endre avtale"};
