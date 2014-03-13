@@ -3,53 +3,136 @@ package DB;
 import java.sql.*;
 import java.util.ArrayList;
 
+import Main.Appointment;
+
 public class Database {
 	
 	DBConnection db;
+	static Database databaseTest;
 	/**
 	 * @param args
 	 * @throws SQLException 
 	 */
 	public static void main(String[] args) throws SQLException {
-		Database databaseTest = new Database();
+		databaseTest = new Database();
 //		databaseTest.addMeeting("14:00:00","15:00:00","2014-01-01","hei","fhdsja","Hallvard");
 //		databaseTest.addParticipants("Hallvard", 4);
-		databaseTest.getAppointments("Hallvard");
+//		databaseTest.addParticipants("Hallvard", 8);
+//		databaseTest.getAppointments("Hallvard");
+//		databaseTest.getEmail("Hallvard");
+//		databaseTest.getEmails(2);
+//		databaseTest.getAvRoom(22);
+//		String hei = databaseTest.getDate(26);
+//		System.out.println(hei);
 	}
 	
 	public Database(){
 		db = new DBConnection();
 	}
 	
-	public void getAppointments(String user){
-		String query = "select avtaleid, starttid, sluttid, dato, sted, beskrivelse, moterom from Deltaker natural join Ansatt natural join Avtale where '" + user + "' = ansatt and avtale = avtaleid and brukernavn = '" + user + "'";
+	public ArrayList<Integer> getAvRoom(int id){
+		ArrayList<Integer> rooms = new ArrayList<Integer>();
+		ArrayList<Integer> opRooms = new ArrayList<Integer>();
+		ArrayList<Integer> avRooms = new ArrayList<Integer>();
+		String start = getStartTime(id);
+		String end = getEndTime(id);
+		String date = getDate(id);
+		String query1 = "select moterom from Avtale where not ((starttid <= '"+start+"' and sluttid <= '"+start+"' or starttid >= '"+end+"' and sluttid >= '"+end+"')) and dato = '"+date+"';";
+		ResultSet rs = db.readQuery(query1);
+		try{
+			while(rs.next()){
+				opRooms.add(rs.getInt("moterom"));
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		rooms = getRooms();
+		for(int i = 0; i < rooms.size(); i++){
+			if(opRooms.contains(rooms.get(i))){
+				
+			}else{
+				avRooms.add(rooms.get(i));
+			}
+		}
+		return avRooms;
+	}
+	
+	public ArrayList<String> getEmails(int id){
+		String query = "select epost from Ansatt natural join Deltaker where ansatt = brukernavn and avtale = "+id+";";
+		ArrayList<String> emails = new ArrayList<String>();
 		ResultSet rs = db.readQuery(query);
 		try{
 			while(rs.next()){
-				String hei = rs.getString("starttid");
-				String hallo = rs.getString("sluttid");
-				System.out.println(hei);
-				System.out.println(hallo);
+				emails.add(rs.getString("epost"));
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return emails;
+	}
+	
+	public String getEmail(String user){
+		String query = "select epost from Ansatt where brukernavn = '"+user+"';";
+		ResultSet rs = db.readQuery(query);
+		String epost = null;
+		try{
+			if(rs.next()){
+				epost = rs.getString("epost");
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		System.out.println(epost);
+		return epost;
+	}
+	
+	public ArrayList<Appointment> getAppointments(String user){
+		ArrayList<Appointment> liste = new ArrayList<Appointment>();
+		String query = "select avtaleid, starttid, sluttid, dato, sted, beskrivelse, moterom, motesjef from Deltaker natural join Ansatt natural join Avtale where '" + user + "' = ansatt and avtale = avtaleid and brukernavn = '" + user + "'";
+		ResultSet rs = db.readQuery(query);
+		try{
+			while(rs.next()){
+				Appointment ap = new Appointment();
+				ap.startTime = rs.getString("starttid");
+				ap.endtime = rs.getString("sluttid");
+				ap.dato = rs.getString("dato");
+				ap.meetingLeader = rs.getString("motesjef");
+				ap.meetingRoom = rs.getInt("moterom");
+				liste.add(ap);
 			}
 			
 		}catch(SQLException e){
 			throw new RuntimeException(e);
 		}
+		return liste;
 	}
 	
 	public void addParticipants(String user, int id){
 		String query1 = "insert into Deltaker (ansatt, avtale) values ('" + user + "', " + id + ");";
-		String query2 = "select ansatt, avtale from Deltaker where ansatt = '" + "' and avtale = " + id + ";";
+		String query2 = "select ansatt, avtale from Deltaker where ansatt = '" +user+ "' and avtale = " + id + ";";
 		ResultSet rs = db.readQuery(query2);
 		try {
-			if(rs.getString("ansatt") == "null"){
+			if(!(rs.next())){
 				db.updateQuery(query1);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			throw new RuntimeException(e);
 		}
-//		db.updateQuery(query);
+	}
+	
+	public String getMoteleder(int id){
+		String query = "select motesjef from Avtale where avtaleid = "+id+";";
+		ResultSet rs = db.readQuery(query);
+		String leder = null;
+		try{
+			if(rs.next()){
+				leder = rs.getString("motesjef");
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		System.out.println(leder);
+		return leder;
 	}
 
 	public String getDate(int avtaleID){
@@ -86,6 +169,7 @@ public class Database {
 
 	
 	public String getStartTime(int avtaleID){
+		System.out.println("FITTE");
 		String query = "select starttid from Avtale where avtaleid = " + avtaleID + ";";
 		ResultSet rs = db.readQuery(query);
 		Time start = null;
@@ -131,7 +215,7 @@ public class Database {
 	
 	
 	public void addMeeting(String start, String end, String date, String sted, String beskrivelse){
-		String query = "insert into Avtale values ('"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', null,'Hallvard');";
+		String query = "insert into Avtale (starttid, sluttid, dato, sted, beskrivelse, motesjef) values ('"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', 'Hallvard');";
 		db.updateQuery(query);
 	}
 	
