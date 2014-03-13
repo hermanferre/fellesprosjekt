@@ -24,10 +24,40 @@ public class Database {
 //		databaseTest.getAvRoom(22);
 //		String hei = databaseTest.getDate(26);
 //		System.out.println(hei);
+//		System.out.println(databaseTest.getAvtaleId());
+//		databaseTest.addParticipants("Hallvard", 43);
 	}
 	
 	public Database(){
 		db = new DBConnection();
+	}
+	
+	
+	public void addParticipants(String user, int id){
+		String query1 = "insert into Deltaker (ansatt, avtale) values ('" + user + "', " + id + ");";
+		String query2 = "select ansatt, avtale from Deltaker where ansatt = '" +user+ "' and avtale = " + id + ";";
+		ResultSet rs = db.readQuery(query2);
+		try {
+			if(!(rs.next())){
+				db.updateQuery(query1);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public int getAvtaleId(){
+		String query = "select max(avtaleid) from Avtale;";
+		ResultSet rs = db.readQuery(query);
+		int id = 0;
+		try{
+			if(rs.next()){
+				id = rs.getInt("max(avtaleid)");
+			}
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return id;
 	}
 	
 	public ArrayList<Integer> getAvRoom(int id){
@@ -108,19 +138,6 @@ public class Database {
 		return liste;
 	}
 	
-	public void addParticipants(String user, int id){
-		String query1 = "insert into Deltaker (ansatt, avtale) values ('" + user + "', " + id + ");";
-		String query2 = "select ansatt, avtale from Deltaker where ansatt = '" +user+ "' and avtale = " + id + ";";
-		ResultSet rs = db.readQuery(query2);
-		try {
-			if(!(rs.next())){
-				db.updateQuery(query1);
-			}
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
-	
 	public String getMoteleder(int id){
 		String query = "select motesjef from Avtale where avtaleid = "+id+";";
 		ResultSet rs = db.readQuery(query);
@@ -132,7 +149,6 @@ public class Database {
 		}catch(SQLException e){
 			throw new RuntimeException(e);
 		}
-		System.out.println(leder);
 		return leder;
 	}
 
@@ -214,8 +230,8 @@ public class Database {
 	}
 	
 	
-	public void addMeeting(String start, String end, String date, String sted, String beskrivelse){
-		String query = "insert into Avtale (starttid, sluttid, dato, sted, beskrivelse, motesjef) values ('"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', 'Hallvard');";
+	public void addMeeting(String start, String end, String date, String sted, String beskrivelse, String moteleder){
+		String query = "insert into Avtale (starttid, sluttid, dato, sted, beskrivelse, motesjef) values ('"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', '"+moteleder+"');";
 		db.updateQuery(query);
 	}
 	
