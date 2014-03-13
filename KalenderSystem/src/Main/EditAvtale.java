@@ -29,41 +29,53 @@ public class EditAvtale {
 		/*if ()  {
 			
 		}*/
-		
-		
-		System.out.println("1: endre starttid");
-		System.out.println("2: endre sluttid");
-		System.out.println("3: endre dato");
-		System.out.println("4: endre sted");
-		System.out.println("5: endre beskrivelse");
-		System.out.println("6: endre moterom");
-		System.out.println("7: slette avtale");
-		System.out.println("8: legg til deltakere");
-		sc = new Scanner(System.in);
-		int com = sc.nextInt();
-		
-		if(com == 1)
-			editStart(tall);
-			else if(com == 2)
-				editSlutt(tall);
-			else if(com == 3)
-				editDato(tall);
-			else if(com ==4)
-				editSted(tall);
-			else if(com == 5)
-				editBeskrivelse(tall);
-			else if(com == 6)
-				editMoterom(tall);
-			else if(com == 7)
-				removeMote(tall);
-			else if(com == 8)
-				leggTilDeltaker(tall);
-			else
-				System.out.println("ikke gyldig tall");	
+		String sjef = db.getMoteleder(tall);
+		String leder = KalenderSystem.getUser();
+		System.out.println(sjef);
+		System.out.println(leder);
+		if(sjef.equals(leder)){
+			System.out.println("1: endre starttid");
+			System.out.println("2: endre sluttid");
+			System.out.println("3: endre dato");
+			System.out.println("4: endre sted");
+			System.out.println("5: endre beskrivelse");
+			System.out.println("6: endre moterom");
+			System.out.println("7: slette avtale");
+			System.out.println("8: legg til deltakere");
+			sc = new Scanner(System.in);
+			int com = sc.nextInt();
+			
+			if(com == 1)
+				editStart(tall);
+				else if(com == 2)
+					editSlutt(tall);
+				else if(com == 3)
+					editDato(tall);
+				else if(com ==4)
+					editSted(tall);
+				else if(com == 5)
+					editBeskrivelse(tall);
+				else if(com == 6)
+					editMoterom(tall);
+				else if(com == 7)
+					removeMote(tall);
+				else if(com == 8)
+					leggTilDeltaker(tall);
+				else
+					System.out.println("ikke gyldig tall");
+			}else{
+				System.out.println("Du er ikke moteleder");
+			}
 		}
 	
 	public void removeMote(int id){
-		db.removeMeeting(id);
+		String sjef = db.getMoteleder(id);
+		String leder = KalenderSystem.getUser();
+		if(sjef == leder){
+			db.removeMeeting(id);
+		}else{
+			System.out.println("Du er ikke moteleder for denne avtalen");
+		}
 	}
 	
 	private void leggTilDeltaker(int id) {
@@ -82,7 +94,7 @@ public class EditAvtale {
 		boolean fortsett = true;
 		
 		while ( fortsett ) {
-			System.out.println("Inviter deltakere til møte");
+			System.out.println("Inviter deltakere til mote");
 			
 			
 			System.out.println("For å legge til deltaker, skriv inn brukernavnet til deltakeren du vil invitere");
@@ -116,35 +128,35 @@ public class EditAvtale {
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		db.editStart(ID, com);
-		se.sendEmail(ID, "Ny starttid for mote " + ID + " er " + com);
+//		se.sendEmail(ID, "Ny starttid for mote " + ID + " er " + com);
 	}
 	public void editSlutt(int ID){
 		System.out.println("Legg til ny sluttid(HH:MM:SS): ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		db.editEnd(ID, com);
-		se.sendEmail(ID, "Ny sluttid for mote " + ID + " er " + com);
+//		se.sendEmail(ID, "Ny sluttid for mote " + ID + " er " + com);
 	}
 	public void editDato(int ID){
 		System.out.println("Legg til ny dato(YYYY-MM-DD): ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		db.editDate(ID, com);
-		se.sendEmail(ID, "Ny dato for mote " + ID + " er " + com);
+//		se.sendEmail(ID, "Ny dato for mote " + ID + " er " + com);
 	}
 	public void editSted(int ID){
 		System.out.println("Legg til ny stedsbeskrivelse: ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		db.editPlace(ID, com);
-		se.sendEmail(ID, "Ny plass for mote " + ID + " er " + com);
+//		se.sendEmail(ID, "Ny plass for mote " + ID + " er " + com);
 	}
 	public void editBeskrivelse(int ID){
 		System.out.println("Legg til ny beskrivelse: ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		db.editBeskrivelse(ID, com);
-		se.sendEmail(ID, "Ny beskrivelse for mote " + ID + " er " + com);
+//		se.sendEmail(ID, "Ny beskrivelse for mote " + ID + " er " + com);
 	}
 	public void editMoterom(int ID){
 		System.out.println("Legg til nytt moterom: ");
@@ -160,6 +172,6 @@ public class EditAvtale {
 			System.out.println("Dette var ikke et tall");
 		}
 		db.editMeetingRoom(ID, tall2);
-		se.sendEmail(ID, "Nytt moterom for mote " + ID + " er " + tall2);
+//		se.sendEmail(ID, "Nytt moterom for mote " + ID + " er " + tall2);
 	}
 }
