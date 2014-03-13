@@ -89,7 +89,6 @@ public class KalenderSystem {
 		case 1: a.addMeet(); break;
 		case 2: ea.editMeny(); break;
 		}
-		
 	}
 
 	private void employeeMenu() {
