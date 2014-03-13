@@ -32,12 +32,10 @@ public class BuildWeek extends JDialog implements ActionListener {
 	private static final int ANTALL_KOLONNER = 8;
 	private static final int TABELLMELLOMROM = 0; //piksler
 	private static final Color AVTALEFARGE = new Color(0x816AEB);
-	private static final Color MOTELEDERFARGE = Color.red;
+	private static final Color MOTELEDERFARGE = new Color(0x4DD397);
 	private static final Border SVART_GRENSE =  BorderFactory.createLineBorder(Color.black);
 	
 	private static Color STANDARDFARGE = Color.LIGHT_GRAY;
-	private static Font STANDARDFONT;
-	private static Font FETFONT;
 	
 	private JButton nesteukeknapp, forjeukeknapp, lukkeknapp;
 	private JLabel labelukenummer;
@@ -133,6 +131,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 				tabell[rad][kol].setBackground(STANDARDFARGE);
 				tabell[rad][kol].setBorder(SVART_GRENSE); 
 				tabell[rad][kol].setOpaque(false);
+				tabell[rad][kol].setToolTipText(null);
 			}
 		}
 		
@@ -223,6 +222,12 @@ public class BuildWeek extends JDialog implements ActionListener {
 						
 						JLabel rute = tabell[klokka][kol];
 						
+						String deltakerliste = "<html>";
+						ArrayList<String> listeOverInviterte = db.getParticipants(avtale.meetingID);
+						ArrayList<String> listeOverDeltar = db.getAtParticipants(avtale.meetingID);
+						
+						listeOverInviterte.removeAll(listeOverDeltar);
+						
 						rute.setOpaque(true);
 						rute.setForeground(Color.white);
 
@@ -230,10 +235,26 @@ public class BuildWeek extends JDialog implements ActionListener {
 							rute.setBackground(MOTELEDERFARGE);
 						} else {
 							rute.setBackground(AVTALEFARGE);
+							deltakerliste += "Møteleder: "+avtale.meetingLeader+"<br>";
 							
 						}
 						rute.setBorder(BorderFactory.createLineBorder(
 								rute.getBackground()));
+						
+						if(!deltakerliste.isEmpty()) {
+							deltakerliste += "Deltar:<br>";
+							for(int j = 0; j < listeOverDeltar.size(); j++)
+								deltakerliste += listeOverDeltar.get(j) + "<br>";
+						}
+						
+						if(!listeOverInviterte.isEmpty()) {
+							deltakerliste += "Er invitert:<br>";
+							for(int j = 0; j < listeOverInviterte.size(); j++)
+								deltakerliste += listeOverInviterte.get(j) + "<br>";
+						}
+						
+						deltakerliste += "</html>";
+						rute.setToolTipText(deltakerliste);
 						
 					}
 				}
