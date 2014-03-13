@@ -63,7 +63,8 @@ public class KalenderSystem {
 				run = false;
 				break;
 			case 1:
-				myCalendar();
+				//myCalendar();
+				viewCalendar();
 				break;
 			case 2:
 				appointmentMenu();
@@ -80,8 +81,20 @@ public class KalenderSystem {
 		}
 	}
 
-	private void myCalendar() {
-		BuildWeek bw = new BuildWeek(getUser());
+	private void viewCalendar() {
+		switch(printMenu(Text.kalvalg)) {
+		case 0: break;
+		case 1: showCalendar(getUser()); break;
+		case 2: break;
+		case 3: 
+			System.out.println("Hvilken bruker?");
+			showCalendar(scanner.next()); break;
+		}
+		
+	}
+
+	private void showCalendar(String user) {
+		BuildWeek bw = new BuildWeek(user);
 		bw.setVisible(true);
 	}
 

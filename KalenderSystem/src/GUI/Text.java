@@ -18,6 +18,11 @@ public class Text {
 	public static String provigjen =	"Pr¿v igjen";
 	
 	//UNDERVALG
+	
+	public static String[] kalvalg =	{"Tilbake",
+										"Ukesoversikt",
+										"Status/invitasjoner",
+										"Vis ukesoversikt for en annen bruker"};
 	public static String[] avtalevalg =	{"Tilbake",
 										"Legg til avtale",
 										"Endre avtale"};
