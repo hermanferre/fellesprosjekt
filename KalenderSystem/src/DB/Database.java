@@ -77,6 +77,24 @@ public class Database {
 		return par;
 	}
 	
+	public boolean isHidden(int avtaleid, String brukernavn) {
+		
+		String query = "select sjult from Deltaker where avtale = "+avtaleid+
+				" and ansatt = '" + brukernavn +"';";
+		ResultSet rs = db.readQuery(query);
+		
+		try{
+			if(rs.next())
+				return rs.getBoolean("sjult");
+			
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		
+		return false;
+		
+	}
+	
 	public ArrayList<String> getAtParticipants(int id, boolean status){
 		ArrayList<String> atPar = new ArrayList<String>();
 		String query = "select ansatt from Deltaker where avtale = "+id+" and deltar = "+status+";";

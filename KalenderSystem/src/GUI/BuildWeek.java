@@ -3,9 +3,7 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -17,10 +15,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.border.Border;
 
 import DB.Database;
@@ -28,6 +24,7 @@ import Main.Appointment;
 
 public class BuildWeek extends JDialog implements ActionListener {
 	
+	private static final long serialVersionUID = -2821088857431070191L;
 	private static final int ANTALL_RADER = 25;
 	private static final int ANTALL_KOLONNER = 8;
 	private static final int TABELLMELLOMROM = 0; //piksler
@@ -208,7 +205,8 @@ public class BuildWeek extends JDialog implements ActionListener {
 				
 				Appointment avtale = avtaleliste.get(i);
 				
-				if(avtale.dato.equals(dateFormat.format(cal.getTime()))) {
+				if(avtale.dato.equals(dateFormat.format(cal.getTime()))
+						&& !db.isHidden(avtale.meetingID, brukernavn)) {
 					
 					int klokkeindeksStart = Integer.parseInt(avtale.startTime.substring(0,2));
 					int klokkeindeksSlutt = Integer.parseInt(avtale.endtime.substring(0,2));
@@ -224,9 +222,11 @@ public class BuildWeek extends JDialog implements ActionListener {
 						
 						String deltakerliste = "<html>";
 						ArrayList<String> listeOverInviterte = db.getParticipants(avtale.meetingID);
-						ArrayList<String> listeOverDeltar = db.getAtParticipants(avtale.meetingID);
+						ArrayList<String> listeOverDeltar = db.getAtParticipants(avtale.meetingID, true);
+						ArrayList<String> listeOverIkkeDeltar = db.getAtParticipants(avtale.meetingID, false);
 						
 						listeOverInviterte.removeAll(listeOverDeltar);
+						listeOverInviterte.removeAll(listeOverIkkeDeltar);
 						
 						rute.setOpaque(true);
 						rute.setForeground(Color.white);
@@ -235,20 +235,28 @@ public class BuildWeek extends JDialog implements ActionListener {
 							rute.setBackground(MOTELEDERFARGE);
 						} else {
 							rute.setBackground(AVTALEFARGE);
-							deltakerliste += "Møteleder: "+avtale.meetingLeader+"<br>";
+							deltakerliste += "<u>Møteleder</u>: "+avtale.meetingLeader+"<br>";
 							
 						}
 						rute.setBorder(BorderFactory.createLineBorder(
 								rute.getBackground()));
 						
-						if(!deltakerliste.isEmpty()) {
-							deltakerliste += "Deltar:<br>";
+						if(!listeOverDeltar.isEmpty()) {
+							deltakerliste += "<u>Deltar:</u><br>";
 							for(int j = 0; j < listeOverDeltar.size(); j++)
 								deltakerliste += listeOverDeltar.get(j) + "<br>";
 						}
 						
+						if(!listeOverIkkeDeltar.isEmpty()) {
+							deltakerliste += "<u>Deltar ikke:</u><br>";
+							for(int j = 0; j < listeOverIkkeDeltar.size(); j++)
+								deltakerliste += listeOverIkkeDeltar.get(j) + "<br>";
+						}
+						
+						
+						
 						if(!listeOverInviterte.isEmpty()) {
-							deltakerliste += "Er invitert:<br>";
+							deltakerliste += "<u>Er invitert:</u><br>";
 							for(int j = 0; j < listeOverInviterte.size(); j++)
 								deltakerliste += listeOverInviterte.get(j) + "<br>";
 						}
@@ -287,8 +295,8 @@ public class BuildWeek extends JDialog implements ActionListener {
 		
 		//String brukernavn =JOptionPane
 		
-//		BuildWeek buildweek = new BuildWeek("Hallvard");
-//		buildweek.setVisible(true);
+		BuildWeek buildweek = new BuildWeek("Hallvard");
+		buildweek.setVisible(true);
 
 	}
 
