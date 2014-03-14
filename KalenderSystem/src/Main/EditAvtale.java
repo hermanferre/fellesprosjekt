@@ -22,7 +22,7 @@ public class EditAvtale {
 					avtale.get(i).endtime+" Dato: "+avtale.get(i).dato+" Sted: "+avtale.get(i).place+
 					" Beskrivelse: "+avtale.get(i).description+" Moterom: "+avtale.get(i).meetingRoom);
 		}
-		System.out.println("Angi avtaleid");
+		System.out.println("Angi avtaleid du vil endre på");
 		Scanner sc = new Scanner(System.in);
 		String id = sc.nextLine();
 		int tall = 0;
@@ -133,7 +133,7 @@ public class EditAvtale {
 			} else if( brukernavnliste.contains(innputt)) {
 				db.addParticipants(innputt, id);
 				String message = "Du er lagt til i mote nr "+id;
-				se.sendEmailOne(id, message, innputt);
+//				se.sendEmailOne(id, message, innputt);
 				
 			} else {
 				System.out.println(innputt+ " er ikke en gyldig kommando eller brukernavn. Prov pa nytt");

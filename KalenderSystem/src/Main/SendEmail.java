@@ -37,13 +37,19 @@ public class SendEmail {
 	
 	public void sendEmailOne(int id, String message, String user){
 		String email = getEmail(user);
-		try{
-			//for (emails : email)
-			Send("pu.gruppe42", "gruppe42fp", email, "Emne", message);
-		}catch(AddressException e){
-			e.printStackTrace();
-		}catch(MessagingException e){
-			e.printStackTrace();
+		System.out.println(email);
+		if(!email.equals("")){
+			try{
+				//for (emails : email)
+				
+				Send("pu.gruppe42", "gruppe42fp", email, "Emne", message);
+			}catch(AddressException e){
+				e.printStackTrace();
+			}catch(MessagingException e){
+				e.printStackTrace();
+			}
+		}else{
+			System.out.println("Brukeren har ikke epost");
 		}
 	}
 	
@@ -52,7 +58,11 @@ public class SendEmail {
 		try{
 			for(int i = 0; i < emails.size(); i++){
 			//for (emails : email)
-				Send("pu.gruppe42", "gruppe42fp", emails.get(i), "Emne", message);
+				if(!emails.get(i).equals("")){
+					Send("pu.gruppe42", "gruppe42fp", emails.get(i), "Emne", message);
+				}else{
+					System.out.println("Brukeren har ikke epost");
+				}
 			}
 		}catch(AddressException e){
 			e.printStackTrace();
