@@ -3,8 +3,8 @@ package Main;
 
 public class Appointment {
 
-	public  String startTime, endtime, dato, meetingLeader;
-	public  int meetingID, meetingRoom;
+	public  String startTime, meetingRoom, endtime, dato, meetingLeader;
+	public  int meetingID;
 	
 	public String description, place;
 	public boolean skjult, status;

@@ -41,7 +41,7 @@ public class Database {
 	}
 	
 	public void setStatus(String user, int id, boolean status){
-		String query = "update Deltaker set deltar = "+status+"where ansatt = '"+user+"' and avtale = "+id+";";
+		String query = "update Deltaker set deltar = "+status+" where ansatt = '"+user+"' and avtale = "+id+";";
 		db.updateQuery(query);
 	}
 	
@@ -209,6 +209,34 @@ public class Database {
 		return epost;
 	}
 	
+	public ArrayList<Appointment> getAppointmentsMoteleder(String user){
+		ArrayList<Appointment> liste = new ArrayList<Appointment>();
+		String query = "select avtaleid, starttid, sluttid, dato, sted, beskrivelse, moterom, motesjef from Avtale where motesjef = '" + user + "';";
+		ResultSet rs = db.readQuery(query);
+		try{
+			while(rs.next()){
+				Appointment ap = new Appointment();
+				ap.startTime = rs.getString("starttid");
+				ap.endtime = rs.getString("sluttid");
+				ap.dato = rs.getString("dato");
+				ap.meetingLeader = rs.getString("motesjef");
+				ap.description = rs.getString("beskrivelse");
+				ap.place = rs.getString("sted");
+				if(rs.getInt("moterom")==0){
+					ap.meetingRoom = "Ikke angitt";
+				}else{
+					ap.meetingRoom = "" + rs.getInt("moterom");
+				}
+				ap.meetingID = rs.getInt("avtaleid");
+				liste.add(ap);
+			}
+			
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+		return liste;
+	}
+	
 	public ArrayList<Appointment> getAppointments(String user){
 		ArrayList<Appointment> liste = new ArrayList<Appointment>();
 		String query = "select avtaleid, starttid, sluttid, dato, sted, beskrivelse, moterom, motesjef, deltar, sjult from Deltaker natural join Ansatt natural join Avtale where '" + user + "' = ansatt and avtale = avtaleid and brukernavn = '" + user + "'";
@@ -221,7 +249,11 @@ public class Database {
 				ap.dato = rs.getString("dato");
 				ap.meetingLeader = rs.getString("motesjef");
 				ap.description = rs.getString("beskrivelse");
-				ap.meetingRoom = rs.getInt("moterom");
+				if(rs.getInt("moterom")==0){
+					ap.meetingRoom = "Ikke angitt";
+				}else{
+					ap.meetingRoom = "" + rs.getInt("moterom");
+				}
 				ap.meetingID = rs.getInt("avtaleid");
 				ap.status = rs.getBoolean("deltar");
 				ap.skjult = rs.getBoolean("sjult");
