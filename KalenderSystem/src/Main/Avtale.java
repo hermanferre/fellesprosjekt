@@ -16,19 +16,29 @@ public class Avtale {
 	}
 	
 	public void statusMeny(){
-		ArrayList<Appointment> avtale = db.getAppointments(KalenderSystem.getUser());
-		for(int i = 0; i < avtale.size(); i++){
-			System.out.println(avtale.get(i).meetingID+": "+avtale.get(i).description+" deltar: "+avtale.get(i).status+" skjult: "+avtale.get(i).skjult);
-		}
-		System.out.println("0: sett status   1: skjul");
-		Scanner sc = new Scanner(System.in);
-		int command = sc.nextInt();
-		if(command == 0){
-			setStatus();
-		}else if(command == 1){
-			setSkjult();
-		}else{
-			System.out.println("Feil input");
+		boolean ok = false;
+		while(!ok) {
+			ArrayList<Appointment> avtale = db.getAppointments(KalenderSystem.getUser());
+			for(int i = 0; i < avtale.size(); i++){
+				System.out.println(avtale.get(i).meetingID+": "+avtale.get(i).description+" deltar: "+avtale.get(i).status+" skjult: "+avtale.get(i).skjult);
+			}
+			
+			Scanner sc = new Scanner(System.in);
+			try {
+				System.out.println("0: sett status   1: skjul 2: avslutt");
+				int command = sc.nextInt();
+				if(command == 0){
+					setStatus();
+				}else if(command == 1){
+					setSkjult();
+				}else{
+					System.out.println("Feil input");
+				}
+				
+				ok = true;
+			} catch(Exception e) {
+				sc.nextLine();
+			}
 		}
 	}
 	
