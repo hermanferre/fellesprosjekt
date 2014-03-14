@@ -176,8 +176,14 @@ public class EditAvtale {
 	public void editMoterom(int ID){
 		System.out.println("Legg til nytt moterom: ");
 		ArrayList<Integer> avRooms = db.getAvRoom(ID);
+		ArrayList<Integer> roomCap = new ArrayList<Integer>();
+		for(int i = 0; i < avRooms.size(); i++){
+			roomCap.add(db.getRoomCap(avRooms.get(i)));
+		}
 		System.out.println("Ledige room er:");
 		System.out.println(avRooms);
+		System.out.println("med henholdsvis romkapasitet:");
+		System.out.println(roomCap);
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		int tall2 = 0;
