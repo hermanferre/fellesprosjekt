@@ -141,12 +141,12 @@ public class Database {
 	}
 	
 	public int getAvtaleId(){
-		String query = "select max(avtaleid) + 1 from Avtale;";
+		String query = "select max(avtaleid) from Avtale;";
 		ResultSet rs = db.readQuery(query);
 		int id = 0;
 		try{
 			if(rs.next()){
-				id = rs.getInt("max(avtaleid) + 1");
+				id = rs.getInt("max(avtaleid)");
 			}
 		}catch(SQLException e){
 			throw new RuntimeException(e);
