@@ -48,6 +48,8 @@ public class Database {
 	
 	
 	public void editUser(String user, String newUser){
+		String query1 = "update Deltaker set ansatt = '"+newUser+"' where ansatt = '"+user+"';";
+		db.updateQuery(query1);
 		String query = "update Ansatt set brukernavn = '"+newUser+"' where brukernavn = '"+user+"';";
 		db.updateQuery(query);
 	}
