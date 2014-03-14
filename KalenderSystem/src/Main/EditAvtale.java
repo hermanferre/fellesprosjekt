@@ -98,6 +98,10 @@ public class EditAvtale {
 		*/
 		
 		ArrayList<String> brukernavnliste = db.getUsername();
+		String leder = db.getMoteleder(id);
+		if(brukernavnliste.contains(leder)){
+			brukernavnliste.remove(leder);
+		}
 		
 		Scanner sc = new Scanner(System.in);
 		boolean fortsett = true;

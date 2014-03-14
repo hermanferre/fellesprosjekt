@@ -287,8 +287,8 @@ public class BuildWeek extends JDialog implements ActionListener {
 		
 		//String brukernavn =JOptionPane
 		
-		BuildWeek buildweek = new BuildWeek("Hallvard");
-		buildweek.setVisible(true);
+//		BuildWeek buildweek = new BuildWeek("Hallvard");
+//		buildweek.setVisible(true);
 
 	}
 

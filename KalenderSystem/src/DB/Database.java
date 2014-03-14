@@ -77,9 +77,9 @@ public class Database {
 		return par;
 	}
 	
-	public ArrayList<String> getAtParticipants(int id){
+	public ArrayList<String> getAtParticipants(int id, boolean status){
 		ArrayList<String> atPar = new ArrayList<String>();
-		String query = "select ansatt from Deltaker where avtale = "+id+" and deltar = true;";
+		String query = "select ansatt from Deltaker where avtale = "+id+" and deltar = "+status+";";
 		ResultSet rs = db.readQuery(query);
 		try{
 			while(rs.next()){
