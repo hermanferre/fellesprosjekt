@@ -85,6 +85,7 @@ public class EditAvtale {
 		Scanner sc = new Scanner(System.in);
 		String user = sc.next();
 		db.removeParticipants(user, id);
+		se.sendEmail(id, "Du er ikke lengre med på mote " + id);
 	}
 
 	public void removeMote(int id){
@@ -92,6 +93,7 @@ public class EditAvtale {
 		String leder = KalenderSystem.getUser();
 		if(sjef.equals(leder)){
 			db.removeMeeting(id);
+//			se.sendEmail(id, "Mote " + id + " er slettet");
 		}else{
 			System.out.println("Du er ikke moteleder for denne avtalen");
 		}
