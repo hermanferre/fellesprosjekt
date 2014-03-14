@@ -16,6 +16,12 @@ public class EditAvtale {
 	}
 
 	public void editMeny(){
+		ArrayList<Appointment> avtale = db.getAppointmentsMoteleder(KalenderSystem.getUser());
+		for(int i = 0; i < avtale.size(); i++){
+			System.out.println(avtale.get(i).meetingID+": Starttid: "+avtale.get(i).startTime+" Sluttid: "+
+					avtale.get(i).endtime+" Dato: "+avtale.get(i).dato+" Sted: "+avtale.get(i).place+
+					" Beskrivelse: "+avtale.get(i).description+" Moterom: "+avtale.get(i).meetingRoom);
+		}
 		System.out.println("Angi avtaleid");
 		Scanner sc = new Scanner(System.in);
 		String id = sc.nextLine();
