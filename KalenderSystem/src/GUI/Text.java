@@ -13,7 +13,7 @@ public class Text {
 	public static String returneres =	"Du returneres til forrige meny.";
 	
 	//public static String logginn = 		"Logg inn";
-	public static String brukernavn = 	"Brukernavn:(i et ord)";
+	public static String brukernavn = 	"Brukernavn (i et ord):";
 	public static String passord = 		"Passord:";
 	public static String gjenta_pw =	"Gjenta passord:";
 	public static String email =		"E-post-adresse:";
