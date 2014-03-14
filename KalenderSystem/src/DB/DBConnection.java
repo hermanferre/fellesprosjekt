@@ -49,14 +49,10 @@ public class DBConnection {
 		}
 	}
 	
-	public void updateQuery(String sql){
+	public void updateQuery(String sql) throws SQLException{
 		Statement s;
-		try{
-			s = connection.createStatement();
-			s.executeUpdate(sql);
-		} catch (SQLException e){
-			throw new RuntimeException(e);
-		}
+		s = connection.createStatement();
+		s.executeUpdate(sql);
 	}
 	
 	public Connection getConnection() {

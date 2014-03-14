@@ -1,5 +1,6 @@
 package Main;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import DB.Database;
@@ -14,14 +15,22 @@ public class Ansatt {
 		Ansatt a = new Ansatt();
 	}
 	public static void addAnsatt(){
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Angi brukernavn:");
-		String user = sc.next();
-		System.out.println("Angi passord:");
-		String pw = sc.next();
-		System.out.println("Angi epost:");
-		String email = sc.next();
-		db.addPerson(user, pw, email);
+		boolean ok = false;
+		while(!ok){
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Angi brukernavn:");
+			String user = sc.next();
+			System.out.println("Angi passord:");
+			String pw = sc.next();
+			System.out.println("Angi epost:");
+			String email = sc.next();
+			try{
+				db.addPerson(user, pw, email);
+				ok = true;
+			}catch(SQLException e){
+				
+			}
+		}
 	}
 
 	public static void editAnsatt(){
@@ -44,26 +53,50 @@ public class Ansatt {
 	}
 	
 	public static void editUsername(){
-		Scanner sc = new Scanner(System.in);
-		String user = KalenderSystem.getUser();
-		System.out.println("Angi nytt brukernavn:");
-		String newUser = sc.next();
-		db.editUser(user, newUser);
+		boolean ok = false;
+		while(!ok){
+			Scanner sc = new Scanner(System.in);
+			String user = KalenderSystem.getUser();
+			System.out.println("Angi nytt brukernavn:");
+			String newUser = sc.next();
+			try{
+				db.editUser(user, newUser);
+				ok = true;
+			}catch(SQLException e){
+				
+			}
+		}
 	}
 	
 	public static void editPassword(){
-		Scanner sc = new Scanner(System.in);
-		String user = KalenderSystem.getUser();
-		System.out.println("Angi nytt passord:");
-		String newPw = sc.next();
-		db.editPw(user, newPw);
+		boolean ok = false;
+		while(!ok) { 
+			Scanner sc = new Scanner(System.in);
+			String user = KalenderSystem.getUser();
+			System.out.println("Angi nytt passord:");
+			String newPw = sc.next();
+			try{
+				db.editPw(user, newPw);
+				ok = true;
+			}catch(SQLException e){
+				
+			}
+		}
 	}
 	
 	public static void editEmail(){
-		Scanner sc = new Scanner(System.in);
-		String user = KalenderSystem.getUser();
-		System.out.println("Angi ny email:");
-		String newEm = sc.next();
-		db.editEmail(user, newEm);
+		boolean ok = false;
+		while(!ok){
+			Scanner sc = new Scanner(System.in);
+			String user = KalenderSystem.getUser();
+			System.out.println("Angi ny email:");
+			String newEm = sc.next();
+			try{
+				db.editEmail(user, newEm);
+				ok = true;
+			}catch(SQLException e){
+				
+			}
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package Main;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -79,23 +80,39 @@ public class EditAvtale {
 	}
 
 	public void removeDeltaker(int id){
-		System.out.println("Deltakerliste:");
-		System.out.println(db.getParticipants(id));
-		System.out.println("Skriv inn brukernavn du vil fjerne:");
-		Scanner sc = new Scanner(System.in);
-		String user = sc.next();
-		db.removeParticipants(user, id);
-//		se.sendEmail(id, "Du er ikke lengre med på mote " + id);
+		boolean ok = false;
+		while(!ok){
+			System.out.println("Deltakerliste:");
+			System.out.println(db.getParticipants(id));
+			System.out.println("Skriv inn brukernavn du vil fjerne:");
+			Scanner sc = new Scanner(System.in);
+			String user = sc.next();
+			try{
+				db.removeParticipants(user, id);
+		//		se.sendEmail(id, "Du er ikke lengre med på mote " + id);
+				ok = true;
+			}catch(SQLException e){
+				
+			}
+		}
 	}
 
 	public void removeMote(int id){
-		String sjef = db.getMoteleder(id);
-		String leder = KalenderSystem.getUser();
-		if(sjef.equals(leder)){
-			db.removeMeeting(id);
-//			se.sendEmail(id, "Mote " + id + " er slettet");
-		}else{
-			System.out.println("Du er ikke moteleder for denne avtalen");
+		boolean ok = false;
+		while(!ok){
+			String sjef = db.getMoteleder(id);
+			String leder = KalenderSystem.getUser();
+			try{
+				if(sjef.equals(leder)){
+					db.removeMeeting(id);
+		//			se.sendEmail(id, "Mote " + id + " er slettet");
+				}else{
+					System.out.println("Du er ikke moteleder for denne avtalen");
+				}
+				ok = true;
+			}catch(SQLException e){
+				
+			}
 		}
 	}
 
@@ -151,20 +168,28 @@ public class EditAvtale {
 	}
 
 	public void editStartAndEnd(int ID){
-		System.out.println("Legg til ny starttid(HH:MM:SS): ");
-		Scanner sc = new Scanner(System.in);
-		String com = sc.nextLine();
-		db.editStart(ID, com);
-		System.out.println("Legg til ny sluttid(HH:MM:SS): ");
-		String com1 = sc.nextLine();
-		db.editEnd(ID, com1);
-		db.removeMeetingRoom(ID);
-		System.out.println("Onsker du ï¿½ legge til nytt moterom: 1 - ja  2 - nei");
-		int command = sc.nextInt();
-		if(command == 1){
-			editMoterom(ID);
+		boolean ok = false;
+		while(!ok){
+			System.out.println("Legg til ny starttid(HH:MM:SS): ");
+			Scanner sc = new Scanner(System.in);
+			String com = sc.nextLine();
+			try{
+				db.editStart(ID, com);
+				System.out.println("Legg til ny sluttid(HH:MM:SS): ");
+				String com1 = sc.nextLine();
+				db.editEnd(ID, com1);
+				db.removeMeetingRoom(ID);
+				System.out.println("Onsker du ï¿½ legge til nytt moterom: 1 - ja  2 - nei");
+				int command = sc.nextInt();
+				if(command == 1){
+					editMoterom(ID);
+				}
+				//		se.sendEmail(ID, "Ny starttid for mote " + ID + " er " + com);
+				ok = true;
+			}catch(SQLException e){
+				
+			}
 		}
-		//		se.sendEmail(ID, "Ny starttid for mote " + ID + " er " + com);
 	}
 
 
@@ -172,43 +197,72 @@ public class EditAvtale {
 		System.out.println("Legg til ny dato(YYYY-MM-DD): ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
-		db.editDate(ID, com);
+		try{
+			db.editDate(ID, com);
+		}catch(SQLException e){
+			System.out.println("Ulgyldig dato");
+			editDato(ID);
+		}
 		//		se.sendEmail(ID, "Ny dato for mote " + ID + " er " + com);
 	}
 	public void editSted(int ID){
-		System.out.println("Legg til ny stedsbeskrivelse: ");
-		Scanner sc = new Scanner(System.in);
-		String com = sc.nextLine();
-		db.editPlace(ID, com);
-		//		se.sendEmail(ID, "Ny plass for mote " + ID + " er " + com);
+		boolean ok = false;
+		while(!ok){
+			System.out.println("Legg til ny stedsbeskrivelse: ");
+			Scanner sc = new Scanner(System.in);
+			String com = sc.nextLine();
+			try{
+				db.editPlace(ID, com);
+				//		se.sendEmail(ID, "Ny plass for mote " + ID + " er " + com);
+				ok = true;
+			}catch(SQLException e){
+				
+			}
+		}
 	}
 	public void editBeskrivelse(int ID){
-		System.out.println("Legg til ny beskrivelse: ");
-		Scanner sc = new Scanner(System.in);
-		String com = sc.nextLine();
-		db.editBeskrivelse(ID, com);
-		//		se.sendEmail(ID, "Ny beskrivelse for mote " + ID + " er " + com);
+		boolean ok = false;
+		while(!ok){
+			System.out.println("Legg til ny beskrivelse: ");
+			Scanner sc = new Scanner(System.in);
+			String com = sc.nextLine();
+			try{
+				db.editBeskrivelse(ID, com);
+				//		se.sendEmail(ID, "Ny beskrivelse for mote " + ID + " er " + com);
+				ok = true;
+			}catch(SQLException e){
+				
+			}
+		}
 	}
 	public void editMoterom(int ID){
-		System.out.println("Legg til nytt moterom: ");
-		ArrayList<Integer> avRooms = db.getAvRoom(ID);
-		ArrayList<Integer> roomCap = new ArrayList<Integer>();
-		for(int i = 0; i < avRooms.size(); i++){
-			roomCap.add(db.getRoomCap(avRooms.get(i)));
+		boolean ok = false;
+		while(!ok){
+			System.out.println("Legg til nytt moterom: ");
+			ArrayList<Integer> avRooms = db.getAvRoom(ID);
+			ArrayList<Integer> roomCap = new ArrayList<Integer>();
+			for(int i = 0; i < avRooms.size(); i++){
+				roomCap.add(db.getRoomCap(avRooms.get(i)));
+			}
+			System.out.println("Ledige room er:");
+			System.out.println(avRooms);
+			System.out.println("med henholdsvis romkapasitet:");
+			System.out.println(roomCap);
+			Scanner sc = new Scanner(System.in);
+			String com = sc.nextLine();
+			int tall2 = 0;
+			try {
+				tall2 = Integer.parseInt(com);
+			} catch (NumberFormatException e) {
+				System.out.println("Dette var ikke et tall");
+			}
+			try{
+				db.editMeetingRoom(ID, tall2);
+				//		se.sendEmail(ID, "Nytt moterom for mote " + ID + " er " + tall2);
+				ok = true;
+			}catch(SQLException e){
+				
+			}
 		}
-		System.out.println("Ledige room er:");
-		System.out.println(avRooms);
-		System.out.println("med henholdsvis romkapasitet:");
-		System.out.println(roomCap);
-		Scanner sc = new Scanner(System.in);
-		String com = sc.nextLine();
-		int tall2 = 0;
-		try {
-			tall2 = Integer.parseInt(com);
-		} catch (NumberFormatException e) {
-			System.out.println("Dette var ikke et tall");
-		}
-		db.editMeetingRoom(ID, tall2);
-		//		se.sendEmail(ID, "Nytt moterom for mote " + ID + " er " + tall2);
 	}
 }

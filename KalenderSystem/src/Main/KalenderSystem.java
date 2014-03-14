@@ -1,5 +1,6 @@
 package Main;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import DB.*;
@@ -97,28 +98,36 @@ public class KalenderSystem {
 	}
 
 	public void addUser() {
-		String[] data = new String[4];
-		System.out.println(Text.brukervalg[2]);
-		System.out.println(Text.brukernavn);
-		data[0] = scanner.next();
-		if (db.getPassword(data[0]) != null) {
-			System.out.println(Text.opprett_feilb);
-			System.out.println(Text.returneres);
-		} else {
-			System.out.println(Text.passord);
-			data[1] = scanner.next();
-			System.out.println(Text.gjenta_pw);
-			data[2] = scanner.next();
-			if (!data[1].equals(data[2])) {
-				System.out.println(Text.opprett_feilp);
+		boolean ok = false;
+		while(!ok){
+			String[] data = new String[4];
+			System.out.println(Text.brukervalg[2]);
+			System.out.println(Text.brukernavn);
+			data[0] = scanner.next();
+			if (db.getPassword(data[0]) != null) {
+				System.out.println(Text.opprett_feilb);
 				System.out.println(Text.returneres);
 			} else {
-				System.out.println(Text.email);
-				data[3] = scanner.next();
-				loggedin = true;
-				user = data[0];
-				System.out.println(Text.opprett_ok + user);
-				db.addPerson(data[0], data[1], data[3]);
+				System.out.println(Text.passord);
+				data[1] = scanner.next();
+				System.out.println(Text.gjenta_pw);
+				data[2] = scanner.next();
+				if (!data[1].equals(data[2])) {
+					System.out.println(Text.opprett_feilp);
+					System.out.println(Text.returneres);
+				} else {
+					try{
+						System.out.println(Text.email);
+						data[3] = scanner.next();
+						loggedin = true;
+						user = data[0];
+						System.out.println(Text.opprett_ok + user);
+						db.addPerson(data[0], data[1], data[3]);
+						ok = true;
+					}catch(SQLException e){
+						
+					}
+				}
 			}
 		}
 	}

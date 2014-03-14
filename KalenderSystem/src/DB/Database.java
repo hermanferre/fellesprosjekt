@@ -35,31 +35,31 @@ public class Database {
 		db = new DBConnection();
 	}
 	
-	public void setSkjult(String user, int id){
+	public void setSkjult(String user, int id) throws SQLException{
 		String query = "update Deltaker set sjult = true where ansatt = '"+user+"' and avtale = "+id+";";
 		db.updateQuery(query);
 		setStatus(user, id, false);
 	}
 	
-	public void setStatus(String user, int id, boolean status){
+	public void setStatus(String user, int id, boolean status) throws SQLException{
 		String query = "update Deltaker set deltar = "+status+" where ansatt = '"+user+"' and avtale = "+id+";";
 		db.updateQuery(query);
 	}
 	
 	
-	public void editUser(String user, String newUser){
+	public void editUser(String user, String newUser) throws SQLException{
 		String query1 = "update Deltaker set ansatt = '"+newUser+"' where ansatt = '"+user+"';";
 		db.updateQuery(query1);
 		String query = "update Ansatt set brukernavn = '"+newUser+"' where brukernavn = '"+user+"';";
 		db.updateQuery(query);
 	}
 	
-	public void editPw(String user, String newPw){
+	public void editPw(String user, String newPw) throws SQLException{
 		String query = "update Ansatt set passord = '"+newPw+"' where brukernavn = '"+user+"';";
 		db.updateQuery(query);
 	}
 	
-	public void editEmail(String user, String newMail){
+	public void editEmail(String user, String newMail) throws SQLException{
 		String query = "update Ansatt set epost = '"+newMail+"' where brukernavn = '"+user+"';";
 		db.updateQuery(query);
 	}
@@ -137,7 +137,7 @@ public class Database {
 		}
 	}
 	
-	public void removeParticipants(String user, int id){
+	public void removeParticipants(String user, int id) throws SQLException{
 		String query = "delete from Deltaker where ansatt = '"+user+"' and avtale = "+id+";";
 		db.updateQuery(query);
 	}
@@ -363,7 +363,7 @@ public class Database {
 	}
 	
 	
-	public void addMeeting(String start, String end, String date, String sted, String beskrivelse, String moteleder){
+	public void addMeeting(String start, String end, String date, String sted, String beskrivelse, String moteleder) throws SQLException{
 		String query = "insert into Avtale (starttid, sluttid, dato, sted, beskrivelse, motesjef) values ('"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', '"+moteleder+"');";
 		db.updateQuery(query);
 		int id = getAvtaleId();
@@ -371,37 +371,37 @@ public class Database {
 		db.updateQuery(query2);
 	}
 	
-	public void removeMeetingRoom(int id){
+	public void removeMeetingRoom(int id) throws SQLException{
 		String query = "update Avtale set moterom = null where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
 	
-	public void editStart(int id, String start){
+	public void editStart(int id, String start) throws SQLException{
 	String query = "update Avtale set starttid = '" + start + "' where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
 	
-	public void editEnd(int id, String end){
+	public void editEnd(int id, String end) throws SQLException{
 		String query = "update Avtale set sluttid = '" + end + "' where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
 	
-	public void editDate(int id, String date){
+	public void editDate(int id, String date) throws SQLException{
 		String query = "update Avtale set dato = '" + date + "' where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
 	
-	public void editPlace(int id, String sted){
+	public void editPlace(int id, String sted) throws SQLException{
 		String query = "update Avtale set sted = '" + sted + "' where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
 	
-	public void editBeskrivelse(int id, String be){
+	public void editBeskrivelse(int id, String be) throws SQLException{
 		String query = "update Avtale set beskrivelse = '" + be + "' where avtaleid = " + id + ";";
 		db.updateQuery(query);
 	}
 	
-	public void editMeetingRoom(int id, int room){
+	public void editMeetingRoom(int id, int room) throws SQLException{
 		String query = "update Avtale set moterom = " + room + " where avtaleid = " + id + ";";
 		ArrayList<Integer> rooms = new ArrayList<Integer>();
 		rooms = getRooms();
@@ -427,7 +427,7 @@ public class Database {
 		return ap;
 	}
 	
-	public void removeMeeting(int id){
+	public void removeMeeting(int id) throws SQLException{
 		String query1 = "delete from Deltaker where avtale = " + id + ";";
 		String query2 = "delete from Avtale where avtaleid = " + id + ";";
 		db.updateQuery(query1);
@@ -448,7 +448,7 @@ public class Database {
 		return brukernavn;
 	}
 	
-	public void addPerson(String user, String pw, String email){
+	public void addPerson(String user, String pw, String email) throws SQLException{
 		ArrayList<String>brukernavn = getUsername();
 		if(brukernavn.contains(user)){
 			System.out.println("Brukeren finnes allerede, velg et annet brukernavn!");
@@ -458,7 +458,7 @@ public class Database {
 		}
 	}
 	
-	public void removePerson(String user){
+	public void removePerson(String user) throws SQLException{
 		String query1 = "delete from Deltaker where brukernavn = '" + user + "';";
 		String query2 = "delete from Ansatt where brukernavn = '" + user + "';";
 		db.updateQuery(query1);
