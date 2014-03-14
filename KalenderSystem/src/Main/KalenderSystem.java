@@ -51,7 +51,7 @@ public class KalenderSystem {
 
 	public void run() {
 		while (run) {
-
+			System.out.println(Text.innloggetsom + user);
 			System.out.println(Text.valg);
 
 			switch (printMenu(Text.hovedvalg)) {
@@ -68,9 +68,6 @@ public class KalenderSystem {
 				break;
 			case 3:
 				employeeMenu();
-				break;
-			case 4:
-				meetingRoomMenu();
 				break;
 			default:
 				System.out.println(Text.provigjen);
@@ -156,14 +153,6 @@ public class KalenderSystem {
 		case 0: break;
 		case 1: Ansatt.addAnsatt(); break;
 		case 2: Ansatt.editAnsatt(); break;
-		}
-
-	}
-
-	private void meetingRoomMenu() {
-		switch(printMenu(Text.romvalg)) {
-		case 0: break;
-
 		}
 
 	}
