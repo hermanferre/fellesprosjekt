@@ -54,24 +54,28 @@ public class KalenderSystem {
 		while (run) {
 			System.out.println(Text.innloggetsom + user);
 			System.out.println(Text.valg);
-
-			switch (printMenu(Text.hovedvalg)) {
-			case 0:
-				System.out.println(Text.avsluttet);
-				run = false;
-				break;
-			case 1:
-				//myCalendar();
-				viewCalendar();
-				break;
-			case 2:
-				appointmentMenu();
-				break;
-			case 3:
-				employeeMenu();
-				break;
-			default:
-				System.out.println(Text.provigjen);
+			
+			try{
+				switch (printMenu(Text.hovedvalg)) {
+				case 0:
+					System.out.println(Text.avsluttet);
+					run = false;
+					break;
+				case 1:
+					//myCalendar();
+					viewCalendar();
+					break;
+				case 2:
+					appointmentMenu();
+					break;
+				case 3:
+					employeeMenu();
+					break;
+				default:
+					System.out.println(Text.provigjen);
+				}
+			}catch(Exception e){
+				scanner.nextLine();
 			}
 		}
 	}
