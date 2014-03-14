@@ -9,7 +9,7 @@ import GUI.*;
 public class KalenderSystem {
 
 	/**
-	 * Jeg driver pŒ med denne nŒ! - Herman
+	 * Jeg driver pï¿½ med denne nï¿½! - Herman
 	 * @param args
 	 */
 
@@ -96,7 +96,7 @@ public class KalenderSystem {
 				user = data[0];
 			} else {
 				System.out.println(Text.logginn_feil);
-				//System.out.println("Passord skulle v¾rt \""+db.getPassword(data[0])+"\", men var \""+data[1]+"\"");
+				//System.out.println("Passord skulle vï¿½rt \""+db.getPassword(data[0])+"\", men var \""+data[1]+"\"");
 			}
 		}
 	}
@@ -171,10 +171,21 @@ public class KalenderSystem {
 	}
 
 	public int printMenu(String[] valg) {
-		for (int i = 0; i < valg.length; i++) {
-			System.out.println(i+".\t"+valg[i]);
+		boolean ok = false;
+		int valgnummer = 0;
+			while(!ok) {
+			try {
+				for (int i = 0; i < valg.length; i++) {
+					System.out.println(i+".\t"+valg[i]);
+				}
+				valgnummer =  scanner.nextInt();
+				ok = true;
+			} catch (Exception e) {
+				scanner.nextLine();
+			}
 		}
-		return scanner.nextInt();
+		
+		return valgnummer;
 	}
 
 	public static String getUser() {

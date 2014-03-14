@@ -224,8 +224,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 						
 						if(avtale.place != null && !avtale.place.isEmpty())
 							deltakerliste += "Sted: "+avtale.place+"<br>";
-						if(!avtale.meetingRoom.equals("Ikke angitt"));
-							deltakerliste += "Romnr.: "+avtale.meetingRoom+"<br>";
+						deltakerliste += "Romnr.: "+avtale.meetingRoom+"<br>";
 							
 						
 						ArrayList<String> listeOverInviterte = db.getParticipants(avtale.meetingID);
