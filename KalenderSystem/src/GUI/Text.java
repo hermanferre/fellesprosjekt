@@ -23,7 +23,7 @@ public class Text {
 	public static String innloggetsom = "Du er innlogget som: ";
 	public static String valg =			"Her er dine valg.\nHva onsker du a gjore idag (skriv tall)?";
 	public static String[] hovedvalg = 	{"Avslutt",
-										"Min kalender",
+										"Kalendere",
 										"Avtaler",
 										"Ansatte"};
 	public static String avsluttet =	"Du har avsluttet programmet. Ha en fortsatt fin dag.";
