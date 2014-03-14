@@ -206,7 +206,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 				Appointment avtale = avtaleliste.get(i);
 				
 				if(avtale.dato.equals(dateFormat.format(cal.getTime()))
-						&& !db.isHidden(avtale.meetingID, brukernavn)) {
+						&& !avtale.skjult) {
 					
 					int klokkeindeksStart = Integer.parseInt(avtale.startTime.substring(0,2));
 					int klokkeindeksSlutt = Integer.parseInt(avtale.endtime.substring(0,2));
