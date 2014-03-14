@@ -27,7 +27,8 @@ public class Database {
 //		System.out.println(databaseTest.getAvtaleId());
 //		databaseTest.addParticipants("Hallvard", 43);
 //		databaseTest.removeParticipants("Hallvard", 43);
-		System.out.println(databaseTest.getMail("Hallvard"));
+//		System.out.println(databaseTest.getMail("Hallvard"));
+		System.out.println(databaseTest.getAvtaleId());
 	}
 	
 	public Database(){
@@ -140,12 +141,12 @@ public class Database {
 	}
 	
 	public int getAvtaleId(){
-		String query = "select max(avtaleid) from Avtale;";
+		String query = "select max(avtaleid) + 1 from Avtale;";
 		ResultSet rs = db.readQuery(query);
 		int id = 0;
 		try{
 			if(rs.next()){
-				id = rs.getInt("max(avtaleid)");
+				id = rs.getInt("max(avtaleid) + 1");
 			}
 		}catch(SQLException e){
 			throw new RuntimeException(e);
