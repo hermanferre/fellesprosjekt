@@ -258,6 +258,7 @@ public class Database {
 				ap.meetingID = rs.getInt("avtaleid");
 				ap.status = rs.getBoolean("deltar");
 				ap.skjult = rs.getBoolean("sjult");
+				ap.place = rs.getString("sted");
 				liste.add(ap);
 			}
 			

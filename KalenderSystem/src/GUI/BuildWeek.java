@@ -221,6 +221,13 @@ public class BuildWeek extends JDialog implements ActionListener {
 						JLabel rute = tabell[klokka][kol];
 						
 						String deltakerliste = "<html>";
+						
+						if(avtale.place != null && !avtale.place.isEmpty())
+							deltakerliste += "Sted: "+avtale.place;
+						if(!avtale.meetingRoom.equals("Ikke angitt"));
+							deltakerliste += "<br>Romnr.: "+avtale.meetingRoom;
+							
+						
 						ArrayList<String> listeOverInviterte = db.getParticipants(avtale.meetingID);
 						ArrayList<String> listeOverDeltar = db.getAtParticipants(avtale.meetingID, true);
 						ArrayList<String> listeOverIkkeDeltar = db.getAtParticipants(avtale.meetingID, false);
@@ -235,7 +242,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 							rute.setBackground(MOTELEDERFARGE);
 						} else {
 							rute.setBackground(AVTALEFARGE);
-							deltakerliste += "<u>Møteleder</u>: "+avtale.meetingLeader+"<br>";
+							deltakerliste += "<br><br><u>Møteleder</u>: "+avtale.meetingLeader+"<br>";
 							
 						}
 						rute.setBorder(BorderFactory.createLineBorder(
