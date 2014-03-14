@@ -208,8 +208,8 @@ public class BuildWeek extends JDialog implements ActionListener {
 				if(avtale.dato.equals(dateFormat.format(cal.getTime()))
 						&& !avtale.skjult) {
 					
-					int klokkeindeksStart = Integer.parseInt(avtale.startTime.substring(0,2));
-					int klokkeindeksSlutt = Integer.parseInt(avtale.endtime.substring(0,2));
+					int klokkeindeksStart = Integer.parseInt(avtale.startTime.substring(0,2))+1;
+					int klokkeindeksSlutt = Integer.parseInt(avtale.endtime.substring(0,2))+2;
 
 					//sett beskrivelse som tekst på første rute
 					tabell[klokkeindeksStart][kol].setText(avtale.description);
