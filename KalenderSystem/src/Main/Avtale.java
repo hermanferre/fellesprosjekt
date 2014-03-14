@@ -1,5 +1,6 @@
 package Main;
 
+import java.util.ArrayList;
 import java.util.Scanner; 
 
 import DB.*;
@@ -10,8 +11,54 @@ public class Avtale {
 	
 	public static void main(String[] args){
 		Avtale a = new Avtale();
-		System.out.println("HEI");
-		a.addMeet();
+		a.statusMeny();
+	}
+	
+	public void statusMeny(){
+		ArrayList<Appointment> avtale = db.getAppointments(KalenderSystem.getUser());
+		for(int i = 0; i < avtale.size(); i++){
+			System.out.println(avtale.get(i).meetingID+": "+avtale.get(i).description+" deltar: "+avtale.get(i).status+" skjult: "+avtale.get(i).skjult);
+		}
+		System.out.println("0: sett status   1: skjul");
+		Scanner sc = new Scanner(System.in);
+		int command = sc.nextInt();
+		if(command == 0){
+			setStatus();
+		}else if(command == 1){
+			setSkjult();
+		}else{
+			System.out.println("Feil input");
+		}
+	}
+	
+	public void setStatus(){
+		ArrayList<Appointment> avtale = db.getAppointments(KalenderSystem.getUser());
+		for(int i = 0; i < avtale.size(); i++){
+			System.out.println(avtale.get(i).meetingID+": "+avtale.get(i).description+" deltar: "+avtale.get(i).status+" skjult: "+avtale.get(i).skjult);
+		}
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Angi avtale du vil sette status:");
+		int id = sc.nextInt();
+		System.out.println("0: deltar    1: deltar ikke");
+		int deltar = sc.nextInt();
+		if(deltar == 0){
+			db.setStatus(KalenderSystem.getUser(), id, true);
+		}else if(deltar == 1){
+			db.setStatus(KalenderSystem.getUser(), id, false);
+		}else{
+			System.out.println("Ikke gyldig");
+		}
+	}
+	
+	public void setSkjult(){
+		ArrayList<Appointment> avtale = db.getAppointments(KalenderSystem.getUser());
+		for(int i = 0; i < avtale.size(); i++){
+			System.out.println(avtale.get(i).meetingID+": "+avtale.get(i).description+" deltar: "+avtale.get(i).status+" skjult: "+avtale.get(i).skjult);
+		}
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Angi avtale du vil skjule:");
+		int id = sc.nextInt();
+		db.setSkjult(KalenderSystem.getUser(), id);
 	}
 	
 	public void addMeet(){

@@ -7,6 +7,7 @@ public class Appointment {
 	public  int meetingID, meetingRoom;
 	
 	public String description, place;
+	public boolean skjult, status;
 	
-
+	
 }

@@ -34,6 +34,18 @@ public class Database {
 		db = new DBConnection();
 	}
 	
+	public void setSkjult(String user, int id){
+		String query = "update Deltaker set sjult = true where ansatt = '"+user+"' and avtale = "+id+";";
+		db.updateQuery(query);
+		setStatus(user, id, false);
+	}
+	
+	public void setStatus(String user, int id, boolean status){
+		String query = "update Deltaker set deltar = "+status+"where ansatt = '"+user+"' and avtale = "+id+";";
+		db.updateQuery(query);
+	}
+	
+	
 	public void editUser(String user, String newUser){
 		String query = "update Ansatt set brukernavn = '"+newUser+"' where brukernavn = '"+user+"';";
 		db.updateQuery(query);
@@ -199,7 +211,7 @@ public class Database {
 	
 	public ArrayList<Appointment> getAppointments(String user){
 		ArrayList<Appointment> liste = new ArrayList<Appointment>();
-		String query = "select avtaleid, starttid, sluttid, dato, sted, beskrivelse, moterom, motesjef from Deltaker natural join Ansatt natural join Avtale where '" + user + "' = ansatt and avtale = avtaleid and brukernavn = '" + user + "'";
+		String query = "select avtaleid, starttid, sluttid, dato, sted, beskrivelse, moterom, motesjef, deltar, sjult from Deltaker natural join Ansatt natural join Avtale where '" + user + "' = ansatt and avtale = avtaleid and brukernavn = '" + user + "'";
 		ResultSet rs = db.readQuery(query);
 		try{
 			while(rs.next()){
@@ -211,6 +223,8 @@ public class Database {
 				ap.description = rs.getString("beskrivelse");
 				ap.meetingRoom = rs.getInt("moterom");
 				ap.meetingID = rs.getInt("avtaleid");
+				ap.status = rs.getBoolean("deltar");
+				ap.skjult = rs.getBoolean("sjult");
 				liste.add(ap);
 			}
 			
@@ -316,6 +330,9 @@ public class Database {
 	public void addMeeting(String start, String end, String date, String sted, String beskrivelse, String moteleder){
 		String query = "insert into Avtale (starttid, sluttid, dato, sted, beskrivelse, motesjef) values ('"+start+"','"+end+"','"+date+"','"+sted+"','"+beskrivelse+"', '"+moteleder+"');";
 		db.updateQuery(query);
+		int id = getAvtaleId();
+		String query2 = "insert into Deltaker values('"+moteleder+"', "+id+", true, false);";
+		db.updateQuery(query2);
 	}
 	
 	public void removeMeetingRoom(int id){
