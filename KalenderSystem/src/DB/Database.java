@@ -34,6 +34,21 @@ public class Database {
 		db = new DBConnection();
 	}
 	
+	public void editUser(String user, String newUser){
+		String query = "update Ansatt set brukernavn = '"+newUser+"' where brukernavn = '"+user+"';";
+		db.updateQuery(query);
+	}
+	
+	public void editPw(String user, String newPw){
+		String query = "update Ansatt set passord = '"+newPw+"' where brukernavn = '"+user+"';";
+		db.updateQuery(query);
+	}
+	
+	public void editEmail(String user, String newMail){
+		String query = "update Ansatt set epost = '"+newMail+"' where brukernavn = '"+user+"';";
+		db.updateQuery(query);
+	}
+	
 	public String getMail(String user){
 		String epost = null;
 		String query = "select epost from Ansatt where brukernavn = '"+user+"';";
@@ -362,12 +377,12 @@ public class Database {
 		return brukernavn;
 	}
 	
-	public void addPerson(String user, String pw) throws SQLException{
+	public void addPerson(String user, String pw, String email){
 		ArrayList<String>brukernavn = getUsername();
 		if(brukernavn.contains(user)){
 			System.out.println("Brukeren finnes allerede, velg et annet brukernavn!");
 		} else{
-			String query = "insert into Ansatt values ('" + user + "', '" + pw + "');";
+			String query = "insert into Ansatt values ('" + user + "', '" + pw + "', '"+email+"');";
 			db.updateQuery(query);
 		}
 	}

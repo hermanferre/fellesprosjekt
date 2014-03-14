@@ -109,7 +109,8 @@ public class KalenderSystem {
 	private void employeeMenu() {
 		switch(printMenu(Text.ansattvalg)) {
 		case 0: break;
-		
+		case 1: Ansatt.addAnsatt(); break;
+		case 2: Ansatt.editAnsatt(); break;
 		}
 		
 	}
