@@ -22,7 +22,7 @@ public class EditAvtale {
 					avtale.get(i).endtime+" Dato: "+avtale.get(i).dato+" Sted: "+avtale.get(i).place+
 					" Beskrivelse: "+avtale.get(i).description+" Moterom: "+avtale.get(i).meetingRoom);
 		}
-		System.out.println("Angi avtaleid du vil endre på");
+		System.out.println("Angi avtaleid du vil endre pï¿½");
 		Scanner sc = new Scanner(System.in);
 		String id = sc.nextLine();
 		int tall = 0;
@@ -83,7 +83,7 @@ public class EditAvtale {
 	public void removeMote(int id){
 		String sjef = db.getMoteleder(id);
 		String leder = KalenderSystem.getUser();
-		if(sjef == leder){
+		if(sjef.equals(leder)){
 			db.removeMeeting(id);
 		}else{
 			System.out.println("Du er ikke moteleder for denne avtalen");
@@ -150,7 +150,7 @@ public class EditAvtale {
 		String com1 = sc.nextLine();
 		db.editEnd(ID, com1);
 		db.removeMeetingRoom(ID);
-		System.out.println("Onsker du å legge til nytt moterom: 1 - ja  2 - nei");
+		System.out.println("Onsker du ï¿½ legge til nytt moterom: 1 - ja  2 - nei");
 		int command = sc.nextInt();
 		if(command == 1){
 			editMoterom(ID);
