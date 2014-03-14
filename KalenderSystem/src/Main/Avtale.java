@@ -63,11 +63,11 @@ public class Avtale {
 	
 	public void addMeet(){
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Angi starttid:");
+		System.out.println("Angi starttid:(HH:MM:SS)");
 		String start = sc.next();
 		System.out.println("Angi sluttid:(HH:MM:SS)");
 		String end = sc.next();
-		System.out.println("Angi dato:");
+		System.out.println("Angi dato:(YYYY-MM-DD)");
 		String date = sc.next();
 		System.out.println("Angi sted:");
 		String sted = sc.next();

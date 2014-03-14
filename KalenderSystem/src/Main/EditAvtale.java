@@ -38,35 +38,32 @@ public class EditAvtale {
 		String sjef = db.getMoteleder(tall);
 		String leder = KalenderSystem.getUser();
 		if(sjef.equals(leder)){
-			System.out.println("1: endre starttid");
-			System.out.println("2: endre sluttid");
-			System.out.println("3: endre dato");
-			System.out.println("4: endre sted");
-			System.out.println("5: endre beskrivelse");
-			System.out.println("6: endre moterom");
-			System.out.println("7: slette avtale");
-			System.out.println("8: legg til deltakere");
-			System.out.println("9: fjern deltaker");
+			System.out.println("1: endre starttid og sluttid");
+			System.out.println("2: endre dato");
+			System.out.println("3: endre sted");
+			System.out.println("4: endre beskrivelse");
+			System.out.println("5: endre moterom");
+			System.out.println("6: slette avtale");
+			System.out.println("7: legg til deltakere");
+			System.out.println("8: fjern deltaker");
 			sc = new Scanner(System.in);
 			int com = sc.nextInt();
 			
 			if(com == 1)
-				editStart(tall);
+				editStartAndEnd(tall);
 				else if(com == 2)
-					editSlutt(tall);
-				else if(com == 3)
 					editDato(tall);
-				else if(com ==4)
+				else if(com ==3)
 					editSted(tall);
-				else if(com == 5)
+				else if(com == 4)
 					editBeskrivelse(tall);
-				else if(com == 6)
+				else if(com == 5)
 					editMoterom(tall);
-				else if(com == 7)
+				else if(com == 6)
 					removeMote(tall);
-				else if(com == 8)
+				else if(com == 7)
 					leggTilDeltaker(tall);
-				else if(com == 9)
+				else if(com == 8)
 					removeDeltaker(tall);
 				else
 					System.out.println("ikke gyldig tall");
@@ -144,20 +141,24 @@ public class EditAvtale {
 		}
 	}
 	
-	public void editStart(int ID){
+	public void editStartAndEnd(int ID){
 		System.out.println("Legg til ny starttid(HH:MM:SS): ");
 		Scanner sc = new Scanner(System.in);
 		String com = sc.nextLine();
 		db.editStart(ID, com);
+		System.out.println("Legg til ny sluttid(HH:MM:SS): ");
+		String com1 = sc.nextLine();
+		db.editEnd(ID, com1);
+		db.removeMeetingRoom(ID);
+		System.out.println("Onsker du å legge til nytt moterom: 1 - ja  2 - nei");
+		int command = sc.nextInt();
+		if(command == 1){
+			editMoterom(ID);
+		}
 //		se.sendEmail(ID, "Ny starttid for mote " + ID + " er " + com);
 	}
-	public void editSlutt(int ID){
-		System.out.println("Legg til ny sluttid(HH:MM:SS): ");
-		Scanner sc = new Scanner(System.in);
-		String com = sc.nextLine();
-		db.editEnd(ID, com);
-//		se.sendEmail(ID, "Ny sluttid for mote " + ID + " er " + com);
-	}
+
+	
 	public void editDato(int ID){
 		System.out.println("Legg til ny dato(YYYY-MM-DD): ");
 		Scanner sc = new Scanner(System.in);
