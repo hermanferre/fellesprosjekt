@@ -37,7 +37,7 @@ public class KalenderSystem {
 
 	public void startMenu() {
 		System.out.println(Text.velkommen);
-		while (!loggedin) {
+		while (!loggedin && run) {
 			switch (printMenu(Text.brukervalg)) {
 			case 0:
 				System.out.println(Text.avsluttet);
