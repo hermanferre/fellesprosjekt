@@ -85,7 +85,7 @@ public class EditAvtale {
 		Scanner sc = new Scanner(System.in);
 		String user = sc.next();
 		db.removeParticipants(user, id);
-		se.sendEmail(id, "Du er ikke lengre med på mote " + id);
+//		se.sendEmail(id, "Du er ikke lengre med på mote " + id);
 	}
 
 	public void removeMote(int id){
