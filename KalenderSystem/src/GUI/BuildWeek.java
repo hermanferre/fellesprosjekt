@@ -223,9 +223,9 @@ public class BuildWeek extends JDialog implements ActionListener {
 						String deltakerliste = "<html>";
 						
 						if(avtale.place != null && !avtale.place.isEmpty())
-							deltakerliste += "Sted: "+avtale.place;
+							deltakerliste += "Sted: "+avtale.place+"<br>";
 						if(!avtale.meetingRoom.equals("Ikke angitt"));
-							deltakerliste += "<br>Romnr.: "+avtale.meetingRoom;
+							deltakerliste += "Romnr.: "+avtale.meetingRoom+"<br>";
 							
 						
 						ArrayList<String> listeOverInviterte = db.getParticipants(avtale.meetingID);
@@ -242,7 +242,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 							rute.setBackground(MOTELEDERFARGE);
 						} else {
 							rute.setBackground(AVTALEFARGE);
-							deltakerliste += "<br><br><u>Møteleder</u>: "+avtale.meetingLeader+"<br>";
+							deltakerliste += "<br><u>Møteleder</u>: "+avtale.meetingLeader+"<br>";
 							
 						}
 						rute.setBorder(BorderFactory.createLineBorder(
