@@ -64,21 +64,21 @@ public class Avtale {
 	public void addMeet(){
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Angi starttid:(HH:MM:SS)");
-		String start = sc.next();
+		String start = sc.nextLine();
 		System.out.println("Angi sluttid:(HH:MM:SS)");
-		String end = sc.next();
+		String end = sc.nextLine();
 		System.out.println("Angi dato:(YYYY-MM-DD)");
-		String date = sc.next();
+		String date = sc.nextLine();
 		System.out.println("Angi sted:");
-		String sted = sc.next();
+		String sted = sc.nextLine();
 		System.out.println("Angi beskrivelse:");
-		String be = sc.next();
+		String be = sc.nextLine();
 		String moteleder = KalenderSystem.getUser();
 		db.addMeeting(start, end, date, sted, be, moteleder);
 		int id = db.getAvtaleId();
 		System.out.println("AvtaleIDen er " + id);
 		System.out.println("Vil du legge til moterom: 1 for ja, 2 for nei");
-		String se = sc.next();
+		String se = sc.nextLine();
 		int se1 = 0;
 		try{
 			se1 = Integer.parseInt(se);
