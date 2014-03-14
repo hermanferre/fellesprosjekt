@@ -16,14 +16,14 @@ public class DBConnection {
 	private static String pw = "gruppe42";
 	private static String database = "hallvarh";
 	
-	//Logger på databasen
+	//Logger pï¿½ databasen
 	public DBConnection(){
 		try{
 			connection = DriverManager.getConnection(connectionURL, user, pw);
 			stat = connection.createStatement();
 		} catch(Exception e){
 			System.out.println("Tilkobling til databaseserver feilet: " + e.getMessage());
-			System.out.println("Må være på NTNU-nettet for å koble til");
+			System.out.println("Mï¿½ vï¿½re pï¿½ NTNU-nettet for ï¿½ koble til");
 		}
 	}
 	
