@@ -285,7 +285,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.WEEK_OF_YEAR, ukenummer);
 		cal.set(Calendar.YEAR, aar);
-		cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+		cal.set(Calendar.DAY_OF_WEEK, 2);
 		
 		return cal;
 	}
