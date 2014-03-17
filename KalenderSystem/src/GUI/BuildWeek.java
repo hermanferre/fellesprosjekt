@@ -54,7 +54,12 @@ public class BuildWeek extends JDialog implements ActionListener {
 		STANDARDFARGE = getBackground();
 		
 		
-		this.brukernavn =  KalenderSystem.getUser();
+		if(brukernavn == null) 
+			this.brukernavn = annabrukernavn;
+		else
+			this.brukernavn =  KalenderSystem.getUser();
+		
+		
 		this.annabrukernavn = annabrukernavn;
 		db = new Database();
 		setTitle(brukernavn + " sin ukeoversikt");
@@ -217,6 +222,8 @@ public class BuildWeek extends JDialog implements ActionListener {
 		
 		if(!brukernavn.equals(avtale.meetingLeader)) {
 			deltakerliste += "<br><u>Møteleder</u>: "+avtale.meetingLeader+"<br>";
+		} else {
+			deltakerliste += "<br>";
 		}
 		
 		
