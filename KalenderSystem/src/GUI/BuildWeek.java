@@ -54,7 +54,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 		STANDARDFARGE = getBackground();
 		
 		
-		if(brukernavn == null) 
+		if(KalenderSystem.getUser() == null) 
 			this.brukernavn = annabrukernavn;
 		else
 			this.brukernavn =  KalenderSystem.getUser();
