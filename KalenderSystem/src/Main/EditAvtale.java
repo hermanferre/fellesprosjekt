@@ -41,8 +41,6 @@ public class EditAvtale {
 		String leder = KalenderSystem.getUser();
 		try{
 			if(sjef.equals(leder)){
-				/*sc = new Scanner(System.in);
-				int com = sc.nextInt();*/
 
 				switch (KalenderSystem.printMenu(Text.editmeny)) {
 				case 0: break;
