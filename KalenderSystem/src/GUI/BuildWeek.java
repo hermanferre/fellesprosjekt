@@ -21,6 +21,7 @@ import javax.swing.border.Border;
 
 import DB.Database;
 import Main.Appointment;
+import Main.KalenderSystem;
 
 public class BuildWeek extends JDialog implements ActionListener {
 	
@@ -30,6 +31,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 	private static final int TABELLMELLOMROM = 0; //piksler
 	private static final Color AVTALEFARGE = new Color(0x816AEB);
 	private static final Color MOTELEDERFARGE = new Color(0x4DD397);
+	private static final Color ANNABRUKERFARGE = Color.darkGray;
 	private static final Border SVART_GRENSE =  BorderFactory.createLineBorder(Color.black);
 	
 	private static Color STANDARDFARGE = Color.LIGHT_GRAY;
@@ -45,16 +47,17 @@ public class BuildWeek extends JDialog implements ActionListener {
 	private JPanel tabellbeholder;
 	
 	private int ukenummer, aar;
-	private String brukernavn;
+	private String brukernavn, annabrukernavn;
 	Database db;
 	
-	public BuildWeek(String brukernavn) {
+	public BuildWeek(String annabrukernavn) {
 		STANDARDFARGE = getBackground();
 		
 		
-		setTitle(brukernavn + " sin ukeoversikt");
-		this.brukernavn = brukernavn;
+		this.brukernavn =  KalenderSystem.getUser();
+		this.annabrukernavn = annabrukernavn;
 		db = new Database();
+		setTitle(brukernavn + " sin ukeoversikt");
 		
 		Calendar cal = Calendar.getInstance();
 		ukenummer = cal.get(Calendar.WEEK_OF_YEAR);
@@ -134,6 +137,101 @@ public class BuildWeek extends JDialog implements ActionListener {
 		
 	}
 	
+	private void leggTilAvtaler(String brukernavn, Color lederfarge, Color avtalefarge) {
+		Calendar cal = getMandagKalender();
+		DateFormat dateFormat = new SimpleDateFormat("dd.MM");
+		
+		ArrayList<Appointment> avtaleliste = db.getAppointments(brukernavn);
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		cal = getMandagKalender();
+		
+		
+		//løkk igjennom uka
+		for( int kol = 1; kol < 8; kol++) {
+
+			//System.out.println(dateFormat.format(cal.getTime()));
+			
+			
+			for(int i = 0; i < avtaleliste.size(); i++) {
+				//System.out.println(avtaleliste.get(i).dato);
+				//System.out.println(dateFormat.format(cal.getTime()));
+				
+				Appointment avtale = avtaleliste.get(i);
+				
+				if(avtale.dato.equals(dateFormat.format(cal.getTime()))
+						&& !avtale.skjult) {
+					
+					int klokkeindeksStart = Integer.parseInt(avtale.startTime.substring(0,2))+1;
+					int klokkeindeksSlutt = Integer.parseInt(avtale.endtime.substring(0,2))+2;
+
+					//sett beskrivelse som tekst på første rute
+					tabell[klokkeindeksStart][kol].setText(avtale.description);
+					
+					
+					//set fage på alle relevante rueter
+					for(int klokka = klokkeindeksStart; klokka < klokkeindeksSlutt; klokka++) {
+						
+						JLabel rute = tabell[klokka][kol];
+						
+						String deltakerliste = "<html>";
+						
+						if(avtale.place != null && !avtale.place.isEmpty())
+							deltakerliste += "Sted: "+avtale.place+"<br>";
+						deltakerliste += "Romnr.: "+avtale.meetingRoom+"<br>";
+							
+						
+						ArrayList<String> listeOverInviterte = db.getParticipants(avtale.meetingID);
+						ArrayList<String> listeOverDeltar = db.getAtParticipants(avtale.meetingID, true);
+						ArrayList<String> listeOverIkkeDeltar = db.getAtParticipants(avtale.meetingID, false);
+						
+						listeOverInviterte.removeAll(listeOverDeltar);
+						listeOverInviterte.removeAll(listeOverIkkeDeltar);
+						
+						rute.setOpaque(true);
+						rute.setForeground(Color.white);
+
+						if(brukernavn.equals(avtale.meetingLeader)) {
+							rute.setBackground(lederfarge);
+						} else {
+							rute.setBackground(avtalefarge);
+							deltakerliste += "<br><u>Møteleder</u>: "+avtale.meetingLeader+"<br>";
+							
+						}
+						rute.setBorder(BorderFactory.createLineBorder(
+								rute.getBackground()));
+						
+						if(!listeOverDeltar.isEmpty()) {
+							deltakerliste += "<u>Deltar:</u><br>";
+							for(int j = 0; j < listeOverDeltar.size(); j++)
+								deltakerliste += listeOverDeltar.get(j) + "<br>";
+						}
+						
+						if(!listeOverIkkeDeltar.isEmpty()) {
+							deltakerliste += "<u>Deltar ikke:</u><br>";
+							for(int j = 0; j < listeOverIkkeDeltar.size(); j++)
+								deltakerliste += listeOverIkkeDeltar.get(j) + "<br>";
+						}
+						
+						
+						
+						if(!listeOverInviterte.isEmpty()) {
+							deltakerliste += "<u>Er invitert:</u><br>";
+							for(int j = 0; j < listeOverInviterte.size(); j++)
+								deltakerliste += listeOverInviterte.get(j) + "<br>";
+						}
+						
+						deltakerliste += "</html>";
+						rute.setToolTipText(deltakerliste);
+						
+					}
+				}
+			}
+			
+			cal.add(Calendar.DATE, 1);
+
+		}
+	}
+	
 	
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource(); 
@@ -188,95 +286,8 @@ public class BuildWeek extends JDialog implements ActionListener {
 				
 		}
 		
-		ArrayList<Appointment> avtaleliste = db.getAppointments(brukernavn);
-		dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		cal = getMandagKalender();
-		
-		
-		//løkk igjennom uka
-		for( int kol = 1; kol < 8; kol++) {
-
-			//System.out.println(dateFormat.format(cal.getTime()));
-			
-			
-			for(int i = 0; i < avtaleliste.size(); i++) {
-				//System.out.println(avtaleliste.get(i).dato);
-				//System.out.println(dateFormat.format(cal.getTime()));
-				
-				Appointment avtale = avtaleliste.get(i);
-				
-				if(avtale.dato.equals(dateFormat.format(cal.getTime()))
-						&& !avtale.skjult) {
-					
-					int klokkeindeksStart = Integer.parseInt(avtale.startTime.substring(0,2))+1;
-					int klokkeindeksSlutt = Integer.parseInt(avtale.endtime.substring(0,2))+2;
-
-					//sett beskrivelse som tekst på første rute
-					tabell[klokkeindeksStart][kol].setText(avtale.description);
-					
-					
-					//set fage på alle relevante rueter
-					for(int klokka = klokkeindeksStart; klokka < klokkeindeksSlutt; klokka++) {
-						
-						JLabel rute = tabell[klokka][kol];
-						
-						String deltakerliste = "<html>";
-						
-						if(avtale.place != null && !avtale.place.isEmpty())
-							deltakerliste += "Sted: "+avtale.place+"<br>";
-						deltakerliste += "Romnr.: "+avtale.meetingRoom+"<br>";
-							
-						
-						ArrayList<String> listeOverInviterte = db.getParticipants(avtale.meetingID);
-						ArrayList<String> listeOverDeltar = db.getAtParticipants(avtale.meetingID, true);
-						ArrayList<String> listeOverIkkeDeltar = db.getAtParticipants(avtale.meetingID, false);
-						
-						listeOverInviterte.removeAll(listeOverDeltar);
-						listeOverInviterte.removeAll(listeOverIkkeDeltar);
-						
-						rute.setOpaque(true);
-						rute.setForeground(Color.white);
-
-						if(brukernavn.equals(avtale.meetingLeader)) {
-							rute.setBackground(MOTELEDERFARGE);
-						} else {
-							rute.setBackground(AVTALEFARGE);
-							deltakerliste += "<br><u>Møteleder</u>: "+avtale.meetingLeader+"<br>";
-							
-						}
-						rute.setBorder(BorderFactory.createLineBorder(
-								rute.getBackground()));
-						
-						if(!listeOverDeltar.isEmpty()) {
-							deltakerliste += "<u>Deltar:</u><br>";
-							for(int j = 0; j < listeOverDeltar.size(); j++)
-								deltakerliste += listeOverDeltar.get(j) + "<br>";
-						}
-						
-						if(!listeOverIkkeDeltar.isEmpty()) {
-							deltakerliste += "<u>Deltar ikke:</u><br>";
-							for(int j = 0; j < listeOverIkkeDeltar.size(); j++)
-								deltakerliste += listeOverIkkeDeltar.get(j) + "<br>";
-						}
-						
-						
-						
-						if(!listeOverInviterte.isEmpty()) {
-							deltakerliste += "<u>Er invitert:</u><br>";
-							for(int j = 0; j < listeOverInviterte.size(); j++)
-								deltakerliste += listeOverInviterte.get(j) + "<br>";
-						}
-						
-						deltakerliste += "</html>";
-						rute.setToolTipText(deltakerliste);
-						
-					}
-				}
-			}
-			
-			cal.add(Calendar.DATE, 1);
-
-		}
+		leggTilAvtaler(annabrukernavn, ANNABRUKERFARGE, ANNABRUKERFARGE);
+		leggTilAvtaler(brukernavn, MOTELEDERFARGE, AVTALEFARGE);
 		
 		
 	}
