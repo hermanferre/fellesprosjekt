@@ -167,11 +167,7 @@ public class BuildWeek extends JDialog implements ActionListener {
 					//sett beskrivelse som tekst på første rute
 					tabell[klokkeindeksStart][kol].setText(avtale.description);
 					
-					
 					String deltakerliste = getTooltip(avtale);
-					
-					
-					
 					
 					//set fage på alle relevante rueter
 					for(int klokka = klokkeindeksStart; klokka < klokkeindeksSlutt; klokka++) {
@@ -218,6 +214,10 @@ public class BuildWeek extends JDialog implements ActionListener {
 		if(avtale.place != null && !avtale.place.isEmpty())
 			deltakerliste += "Sted: "+avtale.place+"<br>";
 		deltakerliste += "Romnr.: "+avtale.meetingRoom+"<br>";
+		
+		if(!brukernavn.equals(avtale.meetingLeader)) {
+			deltakerliste += "<br><u>Møteleder</u>: "+avtale.meetingLeader+"<br>";
+		}
 		
 		
 		if(!listeOverDeltar.isEmpty()) {
