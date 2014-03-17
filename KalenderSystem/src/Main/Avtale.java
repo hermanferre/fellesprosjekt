@@ -25,11 +25,13 @@ public class Avtale {
 			
 			Scanner sc = new Scanner(System.in);
 			try {
-				System.out.println("0: sett status   1: skjul 2: avslutt");
+				System.out.println("0: tilbake; 1: sett status; 2: skjul");
 				int command = sc.nextInt();
-				if(command == 0){
-					setStatus();
+				if(command == 0) {
+					//GJ¯R INGENTING
 				}else if(command == 1){
+					setStatus();
+				}else if(command == 2){
 					setSkjult();
 				}else{
 					System.out.println("Feil input");
@@ -52,7 +54,7 @@ public class Avtale {
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Angi avtale du vil sette status:");
 			int id = sc.nextInt();
-			System.out.println("0: deltar    1: deltar ikke");
+			System.out.println("0: deltar; 1: deltar ikke");
 			int deltar = sc.nextInt();
 			try{
 				if(deltar == 0){
@@ -92,10 +94,10 @@ public class Avtale {
 		boolean ok = false;
 		while(!ok){
 			Scanner sc = new Scanner(System.in);
-			System.out.println("Angi starttid:(HH:MM:SS)");
-			String start = sc.nextLine();
-			System.out.println("Angi sluttid:(HH:MM:SS)");
-			String end = sc.nextLine();
+			System.out.println("Angi starttid:(HH:MM)");
+			String start = sc.nextLine()+":00";
+			System.out.println("Angi sluttid:(HH:MM)");
+			String end = sc.nextLine()+":00";
 			System.out.println("Angi dato:(YYYY-MM-DD)");
 			String date = sc.nextLine();
 			System.out.println("Angi sted:");
@@ -110,8 +112,8 @@ public class Avtale {
 				continue;
 			}
 			int id = db.getAvtaleId();
-			System.out.println("AvtaleIDen er " + id);
-			System.out.println("Vil du legge til moterom: 1 for ja, 2 for nei");
+			System.out.println("AvtaleID-en er " + id);
+			System.out.println("Vil du legge til moterom? 1: ja; 2: nei");
 			String se = sc.nextLine();
 			int se1 = 0;
 			try{

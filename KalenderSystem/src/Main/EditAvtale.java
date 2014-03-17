@@ -1,6 +1,7 @@
 package Main;
 
 import java.sql.SQLException;
+import GUI.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -40,35 +41,21 @@ public class EditAvtale {
 		String leder = KalenderSystem.getUser();
 		try{
 			if(sjef.equals(leder)){
-				System.out.println("1: endre starttid og sluttid");
-				System.out.println("2: endre dato");
-				System.out.println("3: endre sted");
-				System.out.println("4: endre beskrivelse");
-				System.out.println("5: endre moterom");
-				System.out.println("6: slette avtale");
-				System.out.println("7: legg til deltakere");
-				System.out.println("8: fjern deltaker");
-				sc = new Scanner(System.in);
-				int com = sc.nextInt();
+				/*sc = new Scanner(System.in);
+				int com = sc.nextInt();*/
 
-				if(com == 1)
-					editStartAndEnd(tall);
-				else if(com == 2)
-					editDato(tall);
-				else if(com ==3)
-					editSted(tall);
-				else if(com == 4)
-					editBeskrivelse(tall);
-				else if(com == 5)
-					editMoterom(tall);
-				else if(com == 6)
-					removeMote(tall);
-				else if(com == 7)
-					leggTilDeltaker(tall);
-				else if(com == 8)
-					removeDeltaker(tall);
-				else
-					System.out.println("ikke gyldig tall");
+				switch (KalenderSystem.printMenu(Text.editmeny)) {
+				case 0: break;
+				case 1: editStartAndEnd(tall); break;
+				case 2: editDato(tall); break;
+				case 3: editSted(tall); break;
+				case 4: editBeskrivelse(tall); break;
+				case 5: editMoterom(tall); break;
+				case 6: removeMote(tall); break;
+				case 7: leggTilDeltaker(tall); break;
+				case 8: removeDeltaker(tall); break;
+				default: System.out.println("Ugyldig input");
+				}
 			}else{
 				System.out.println("Du er ikke moteleder");
 			}
@@ -89,10 +76,10 @@ public class EditAvtale {
 			String user = sc.next();
 			try{
 				db.removeParticipants(user, id);
-		//		se.sendEmail(id, "Du er ikke lengre med på mote " + id);
+				//		se.sendEmail(id, "Du er ikke lengre med på mote " + id);
 				ok = true;
 			}catch(SQLException e){
-				
+
 			}
 		}
 	}
@@ -105,13 +92,13 @@ public class EditAvtale {
 			try{
 				if(sjef.equals(leder)){
 					db.removeMeeting(id);
-		//			se.sendEmail(id, "Mote " + id + " er slettet");
+					//			se.sendEmail(id, "Mote " + id + " er slettet");
 				}else{
 					System.out.println("Du er ikke moteleder for denne avtalen");
 				}
 				ok = true;
 			}catch(SQLException e){
-				
+
 			}
 		}
 	}
@@ -187,7 +174,7 @@ public class EditAvtale {
 				//		se.sendEmail(ID, "Ny starttid for mote " + ID + " er " + com);
 				ok = true;
 			}catch(SQLException e){
-				
+
 			}
 		}
 	}
@@ -216,7 +203,7 @@ public class EditAvtale {
 				//		se.sendEmail(ID, "Ny plass for mote " + ID + " er " + com);
 				ok = true;
 			}catch(SQLException e){
-				
+
 			}
 		}
 	}
@@ -231,7 +218,7 @@ public class EditAvtale {
 				//		se.sendEmail(ID, "Ny beskrivelse for mote " + ID + " er " + com);
 				ok = true;
 			}catch(SQLException e){
-				
+
 			}
 		}
 	}
@@ -261,7 +248,7 @@ public class EditAvtale {
 				//		se.sendEmail(ID, "Nytt moterom for mote " + ID + " er " + tall2);
 				ok = true;
 			}catch(SQLException e){
-				
+
 			}
 		}
 	}
