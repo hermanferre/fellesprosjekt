@@ -168,28 +168,20 @@ public class BuildWeek extends JDialog implements ActionListener {
 					tabell[klokkeindeksStart][kol].setText(avtale.description);
 					
 					
+					String deltakerliste = getTooltip(avtale);
+					
+					
+					
+					
 					//set fage på alle relevante rueter
 					for(int klokka = klokkeindeksStart; klokka < klokkeindeksSlutt; klokka++) {
 						
 						JLabel rute = tabell[klokka][kol];
 						
-						String deltakerliste = "<html>";
-						
-						if(avtale.place != null && !avtale.place.isEmpty())
-							deltakerliste += "Sted: "+avtale.place+"<br>";
-						deltakerliste += "Romnr.: "+avtale.meetingRoom+"<br>";
-							
-						
-						ArrayList<String> listeOverInviterte = db.getParticipants(avtale.meetingID);
-						ArrayList<String> listeOverDeltar = db.getAtParticipants(avtale.meetingID, true);
-						ArrayList<String> listeOverIkkeDeltar = db.getAtParticipants(avtale.meetingID, false);
-						
-						listeOverInviterte.removeAll(listeOverDeltar);
-						listeOverInviterte.removeAll(listeOverIkkeDeltar);
 						
 						rute.setOpaque(true);
 						rute.setForeground(Color.white);
-
+						
 						if(brukernavn.equals(avtale.meetingLeader)) {
 							rute.setBackground(lederfarge);
 						} else {
@@ -199,28 +191,8 @@ public class BuildWeek extends JDialog implements ActionListener {
 						}
 						rute.setBorder(BorderFactory.createLineBorder(
 								rute.getBackground()));
+
 						
-						if(!listeOverDeltar.isEmpty()) {
-							deltakerliste += "<u>Deltar:</u><br>";
-							for(int j = 0; j < listeOverDeltar.size(); j++)
-								deltakerliste += listeOverDeltar.get(j) + "<br>";
-						}
-						
-						if(!listeOverIkkeDeltar.isEmpty()) {
-							deltakerliste += "<u>Deltar ikke:</u><br>";
-							for(int j = 0; j < listeOverIkkeDeltar.size(); j++)
-								deltakerliste += listeOverIkkeDeltar.get(j) + "<br>";
-						}
-						
-						
-						
-						if(!listeOverInviterte.isEmpty()) {
-							deltakerliste += "<u>Er invitert:</u><br>";
-							for(int j = 0; j < listeOverInviterte.size(); j++)
-								deltakerliste += listeOverInviterte.get(j) + "<br>";
-						}
-						
-						deltakerliste += "</html>";
 						rute.setToolTipText(deltakerliste);
 						
 					}
@@ -230,6 +202,49 @@ public class BuildWeek extends JDialog implements ActionListener {
 			cal.add(Calendar.DATE, 1);
 
 		}
+	}
+	
+	private String getTooltip(Appointment avtale) {
+		
+		ArrayList<String> listeOverInviterte = db.getParticipants(avtale.meetingID);
+		ArrayList<String> listeOverDeltar = db.getAtParticipants(avtale.meetingID, true);
+		ArrayList<String> listeOverIkkeDeltar = db.getAtParticipants(avtale.meetingID, false);
+		
+		listeOverInviterte.removeAll(listeOverDeltar);
+		listeOverInviterte.removeAll(listeOverIkkeDeltar);
+		
+		String deltakerliste = "<html>";
+		
+		if(avtale.place != null && !avtale.place.isEmpty())
+			deltakerliste += "Sted: "+avtale.place+"<br>";
+		deltakerliste += "Romnr.: "+avtale.meetingRoom+"<br>";
+		
+		
+		if(!listeOverDeltar.isEmpty()) {
+			deltakerliste += "<u>Deltar:</u><br>";
+			for(int j = 0; j < listeOverDeltar.size(); j++)
+				deltakerliste += listeOverDeltar.get(j) + "<br>";
+		}
+		
+		if(!listeOverIkkeDeltar.isEmpty()) {
+			deltakerliste += "<u>Deltar ikke:</u><br>";
+			for(int j = 0; j < listeOverIkkeDeltar.size(); j++)
+				deltakerliste += listeOverIkkeDeltar.get(j) + "<br>";
+		}
+		
+		
+		
+		if(!listeOverInviterte.isEmpty()) {
+			deltakerliste += "<u>Er invitert:</u><br>";
+			for(int j = 0; j < listeOverInviterte.size(); j++)
+				deltakerliste += listeOverInviterte.get(j) + "<br>";
+		}
+		
+		deltakerliste += "</html>";
+		
+		
+		
+		return deltakerliste;
 	}
 	
 	
