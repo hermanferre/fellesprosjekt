@@ -35,8 +35,8 @@ public class Database {
 		db = new DBConnection();
 	}
 	
-	public void setSkjult(String user, int id) throws SQLException{
-		String query = "update Deltaker set sjult = true where ansatt = '"+user+"' and avtale = "+id+";";
+	public void setSkjult(String user, int id, boolean status) throws SQLException{
+		String query = "update Deltaker set sjult = "+status+" where ansatt = '"+user+"' and avtale = "+id+";";
 		db.updateQuery(query);
 		setStatus(user, id, false);
 	}

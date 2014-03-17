@@ -57,6 +57,7 @@ public class Avtale {
 			try{
 				if(deltar == 0){
 					db.setStatus(KalenderSystem.getUser(), id, true);
+					db.setSkjult(KalenderSystem.getUser(), id, false);
 				}else if(deltar == 1){
 					db.setStatus(KalenderSystem.getUser(), id, false);
 				}else{
@@ -80,7 +81,7 @@ public class Avtale {
 			System.out.println("Angi avtale du vil skjule:");
 			int id = sc.nextInt();
 			try{
-				db.setSkjult(KalenderSystem.getUser(), id);
+				db.setSkjult(KalenderSystem.getUser(), id, true);
 				ok = true;
 			}catch(SQLException e){
 				
