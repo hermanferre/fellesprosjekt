@@ -84,6 +84,7 @@ public class Avtale {
 			int id = sc.nextInt();
 			try{
 				db.setSkjult(KalenderSystem.getUser(), id, true);
+				db.setStatus(KalenderSystem.getUser(), id, false);
 				ok = true;
 			}catch(SQLException e){
 				
