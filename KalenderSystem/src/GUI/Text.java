@@ -32,9 +32,9 @@ public class Text {
 	//UNDERVALG
 	
 	public static String[] kalvalg =	{"Tilbake",
-										"Ukesoversikt",
+										"Din ukesoversikt",
 										"Status/invitasjoner",
-										"Vis ukesoversikt for en annen bruker"};
+										"Ukesoversikt for deg og en annen bruker"};
 	public static String hvilkenbruker= "Hvilken bruker?";
 	public static String[] avtalevalg =	{"Tilbake",
 										"Legg til avtale",
@@ -42,4 +42,15 @@ public class Text {
 	public static String[] ansattvalg = {"Tilbake",
 										"Legg til ansatt",
 										"Endre ansatt"};
+	
+	//EDITAVTALE
+	public static String[] editmeny =	{"Tilbake",
+										"Endre start- og sluttid",
+										"Endre dato",
+										"Endre sted",
+										"Endre beskrivelse",
+										"Endre moterom",
+										"Slette avtale",
+										"Legg til deltagere",
+										"Fjern deltager"};
 }

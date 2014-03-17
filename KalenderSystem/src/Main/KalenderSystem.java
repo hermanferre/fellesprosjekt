@@ -14,7 +14,7 @@ public class KalenderSystem {
 	 */
 
 	Database db;
-	Scanner scanner;
+	static Scanner scanner;
 	boolean loggedin;
 	boolean run;
 	EditAvtale ea;
@@ -170,7 +170,7 @@ public class KalenderSystem {
 
 	}
 
-	public int printMenu(String[] valg) {
+	public static int printMenu(String[] valg) {
 		boolean ok = false;
 		int valgnummer = 0;
 			while(!ok) {
