@@ -24,43 +24,43 @@ public class EditAvtale {
 					avtale.get(i).endtime+" Dato: "+avtale.get(i).dato+" Sted: "+avtale.get(i).place+
 					" Beskrivelse: "+avtale.get(i).description+" Moterom: "+avtale.get(i).meetingRoom);
 		}
-		System.out.println("Angi avtaleid du vil endre pï¿½");
+		System.out.println("Angi avtaleid du vil endre pŒ - 0 for Œ gŒ tilbake:");
 		Scanner sc = new Scanner(System.in);
 		String id = sc.nextLine();
-		int tall = 0;
+		int tall = -1;
 		try {
 			tall = Integer.parseInt(id);
 		} catch (NumberFormatException e) {
-			System.out.println("Dette var ikke et tall. FÃ¸kk deg");
+			System.out.println("Skjerp deg! Dette var ikke et tall.");
+			editMeny();
 		}
 
-		/*if ()  {
+		if (tall != 0) {
+			String sjef = db.getMoteleder(tall);
+			String leder = KalenderSystem.getUser();
+			try{
+				if(sjef.equals(leder)){
 
-		}*/
-		String sjef = db.getMoteleder(tall);
-		String leder = KalenderSystem.getUser();
-		try{
-			if(sjef.equals(leder)){
-
-				switch (KalenderSystem.printMenu(Text.editmeny)) {
-				case 0: break;
-				case 1: editStartAndEnd(tall); break;
-				case 2: editDato(tall); break;
-				case 3: editSted(tall); break;
-				case 4: editBeskrivelse(tall); break;
-				case 5: editMoterom(tall); break;
-				case 6: removeMote(tall); break;
-				case 7: leggTilDeltaker(tall); break;
-				case 8: removeDeltaker(tall); break;
-				default: System.out.println("Ugyldig input");
+					switch (KalenderSystem.printMenu(Text.editmeny)) {
+					case 0: break;
+					case 1: editStartAndEnd(tall); break;
+					case 2: editDato(tall); break;
+					case 3: editSted(tall); break;
+					case 4: editBeskrivelse(tall); break;
+					case 5: editMoterom(tall); break;
+					case 6: removeMote(tall); break;
+					case 7: leggTilDeltaker(tall); break;
+					case 8: removeDeltaker(tall); break;
+					default: System.out.println("Ugyldig input");
+					}
+				}else{
+					System.out.println("Du er ikke moteleder");
 				}
-			}else{
-				System.out.println("Du er ikke moteleder");
-			}
 
-		} catch (NullPointerException e) {
-			System.out.println("Ugyldig. Prøv igjen");
-			editMeny();
+			} catch (NullPointerException e) {
+				System.out.println("Det finnes ingen avtale med denne id-en.");
+				editMeny();
+			}
 		}
 	}
 
